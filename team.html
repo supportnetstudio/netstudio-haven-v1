@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MUSE — The Agency</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* --- CORE VARIABLES --- */
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --accent: #2563eb;
+      --border: #000000;
+      --font-display: 'Oswald', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    /* --- RESET --- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: var(--font-body); line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* --- TYPOGRAPHY --- */
+    h1, h2, h3 { font-family: var(--font-display); text-transform: uppercase; line-height: 0.9; }
+    h1 { font-size: clamp(60px, 12vw, 150px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 20px; }
+    
+    .label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase; 
+      letter-spacing: 0.1em; border: 1px solid var(--text); 
+      padding: 6px 12px; display: inline-block; margin-bottom: 24px;
+    }
+
+    /* --- UTILITIES --- */
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+    
+    .btn-outline {
+      background: transparent; color: var(--text); border: 1px solid var(--text);
+      padding: 12px 24px; font-weight: 600; text-transform: uppercase;
+      font-size: 12px; letter-spacing: 0.05em; text-decoration: none;
+      transition: 0.3s; display: inline-block; cursor: pointer;
+    }
+    .btn-outline:hover { background: var(--text); color: var(--bg); }
+
+    /* --- NAVIGATION --- */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px; mix-blend-mode: difference; color: white;
+    }
+    .logo { font-family: var(--font-display); font-size: 32px; font-weight: 700; letter-spacing: -0.05em; }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: white; text-decoration: none; font-size: 14px; text-transform: uppercase; font-weight: 600; }
+    @media(max-width: 768px) { .nav-links { display: none; } }
+
+    /* --- HERO --- */
+    .team-hero {
+      padding: 160px 24px 80px; border-bottom: 1px solid var(--border);
+    }
+
+    /* --- AGENCY GRID --- */
+    .agency-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); 
+      border-bottom: 1px solid var(--border);
+    }
+    @media(max-width: 1200px) { .agency-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media(max-width: 600px) { .agency-grid { grid-template-columns: 1fr; } }
+
+    /* --- ARTIST CARD --- */
+    .artist-card {
+      border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      position: relative; group; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    /* Remove border on last item of row based on columns */
+    .artist-card:nth-child(4n) { border-right: none; } 
+    @media(max-width: 1200px) { 
+      .artist-card:nth-child(4n) { border-right: 1px solid var(--border); } 
+      .artist-card:nth-child(2n) { border-right: none; } 
+    }
+    @media(max-width: 600px) { .artist-card { border-right: none; } }
+
+
+    .img-frame {
+      width: 100%; aspect-ratio: 3/4; overflow: hidden; position: relative;
+    }
+    .artist-img {
+      width: 100%; height: 100%; object-fit: cover; 
+      filter: grayscale(100%); transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .artist-card:hover .artist-img { filter: grayscale(0%); transform: scale(1.03); }
+
+    /* INFO AREA */
+    .artist-info {
+      padding: 24px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1;
+    }
+    
+    .meta-top { margin-bottom: 20px; }
+    .role-tag { font-family: var(--font-body); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #666; margin-bottom: 4px; display: block; }
+    .name-big { font-family: var(--font-display); font-size: 40px; text-transform: uppercase; line-height: 0.9; }
+
+    .action-row {
+      display: flex; gap: 10px; margin-top: auto;
+    }
+    .btn-small {
+      flex: 1; text-align: center; border: 1px solid var(--text); padding: 10px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; text-decoration: none;
+      color: var(--text); transition: 0.2s;
+    }
+    .btn-small:hover { background: var(--text); color: var(--bg); }
+    .btn-accent { background: var(--text); color: var(--bg); }
+    .btn-accent:hover { background: var(--accent); border-color: var(--accent); color: white; }
+
+    /* --- HIRING BANNER --- */
+    .hiring-banner {
+      padding: 80px 24px; text-align: center; background: #000; color: #fff;
+    }
+
+    /* --- FOOTER --- */
+    footer { padding: 80px 24px; background: var(--text); color: var(--bg); text-align: center; }
+    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 40px; }
+    .footer-links a { color: var(--bg); text-decoration: none; text-transform: uppercase; font-size: 12px; }
+
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">MUSE.</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">Manifesto</a>
+      <a href="services.html">Menu</a>
+      <a href="team.html" class="active">Agency</a>
+    </div>
+    <div style="font-weight: 600; text-transform: uppercase; font-size: 14px;">Book Now</div>
+  </nav>
+
+  <header class="team-hero">
+    <div class="label">Representing</div>
+    <h1>The Agency.</h1>
+  </header>
+
+  <div class="agency-grid">
+
+    <div class="artist-card">
+      <div class="img-frame">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600" class="artist-img">
+      </div>
+      <div class="artist-info">
+        <div class="meta-top">
+          <span class="role-tag">Creative Director</span>
+          <div class="name-big">Sasha</div>
+        </div>
+        <div class="action-row">
+          <a href="muse_profile.html" class="btn-small">Portfolio</a>
+          <button class="btn-small btn-accent" onclick="openBooking()">Book</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="artist-card">
+      <div class="img-frame">
+        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=600" class="artist-img">
+      </div>
+      <div class="artist-info">
+        <div class="meta-top">
+          <span class="role-tag">Senior Barber</span>
+          <div class="name-big">Kairo</div>
+        </div>
+        <div class="action-row">
+          <a href="muse_profile.html" class="btn-small">Portfolio</a>
+          <button class="btn-small btn-accent" onclick="openBooking()">Book</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="artist-card">
+      <div class="img-frame">
+        <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&q=80&w=600" class="artist-img">
+      </div>
+      <div class="artist-info">
+        <div class="meta-top">
+          <span class="role-tag">Colorist</span>
+          <div class="name-big">Jinx</div>
+        </div>
+        <div class="action-row">
+          <a href="muse_profile.html" class="btn-small">Portfolio</a>
+          <button class="btn-small btn-accent" onclick="openBooking()">Book</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="artist-card">
+      <div class="img-frame">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600" class="artist-img">
+      </div>
+      <div class="artist-info">
+        <div class="meta-top">
+          <span class="role-tag">Junior Stylist</span>
+          <div class="name-big">Nico</div>
+        </div>
+        <div class="action-row">
+          <a href="muse_profile.html" class="btn-small">Portfolio</a>
+          <button class="btn-small btn-accent" onclick="openBooking()">Book</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="artist-card">
+      <div class="img-frame">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=600" class="artist-img">
+      </div>
+      <div class="artist-info">
+        <div class="meta-top">
+          <span class="role-tag">Texture Specialist</span>
+          <div class="name-big">Ria</div>
+        </div>
+        <div class="action-row">
+          <a href="muse_profile.html" class="btn-small">Portfolio</a>
+          <button class="btn-small btn-accent" onclick="openBooking()">Book</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="artist-card">
+      <div class="img-frame">
+        <img src="https://images.unsplash.com/photo-1520338661084-680395057c93?auto=format&fit=crop&q=80&w=600" class="artist-img">
+      </div>
+      <div class="artist-info">
+        <div class="meta-top">
+          <span class="role-tag">Editorial</span>
+          <div class="name-big">Ezra</div>
+        </div>
+        <div class="action-row">
+          <a href="muse_profile.html" class="btn-small">Portfolio</a>
+          <button class="btn-small btn-accent" onclick="openBooking()">Book</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="hiring-banner">
+    <h2 style="font-size: 40px; margin-bottom: 20px;">Join The Roster.</h2>
+    <p style="margin-bottom: 30px; font-size: 18px; color: #ccc;">We are always looking for non-conformist talent.</p>
+    <a href="contact.html" class="btn-outline" style="border-color: white; color: white;">Apply Now</a>
+  </div>
+
+  <footer>
+    <h2 style="margin-bottom: 40px;">MUSE.</h2>
+    <div class="footer-links">
+      <a href="#">Instagram</a>
+      <a href="#">TikTok</a>
+      <a href="#">Contact</a>
+    </div>
+    <div style="font-size: 12px; color: #888;">© 2026 Muse Studio. Powered by Net Studio.</div>
+  </footer>
+
+  <script src="netstudio_engine.js"></script>
+  
+  <script>
+    lucide.createIcons();
+    function openBooking() { 
+      if(typeof NetStudio !== 'undefined') {
+        NetStudio.open(); 
+      } else {
+        console.log("Engine not loaded yet");
+      }
+    }
+  </script>
+</body>
+</html>

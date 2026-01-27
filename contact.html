@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MUSE — Contact</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* --- CORE VARIABLES --- */
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --accent: #2563eb;
+      --border: #000000;
+      --font-display: 'Oswald', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    /* --- RESET --- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: var(--font-body); line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* --- TYPOGRAPHY --- */
+    h1, h2, h3 { font-family: var(--font-display); text-transform: uppercase; line-height: 0.9; }
+    h1 { font-size: clamp(60px, 12vw, 150px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 40px; }
+    
+    .label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase; 
+      letter-spacing: 0.1em; border: 1px solid var(--text); 
+      padding: 6px 12px; display: inline-block; margin-bottom: 24px;
+    }
+
+    /* --- UTILITIES --- */
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+    
+    .btn {
+      display: inline-block; background: var(--text); color: var(--bg);
+      padding: 18px 40px; font-family: var(--font-body); font-weight: 600; 
+      text-transform: uppercase; font-size: 12px; letter-spacing: 0.1em; 
+      text-decoration: none; transition: 0.3s; width: 100%; text-align: center;
+      border: 1px solid var(--text); cursor: pointer;
+    }
+    .btn:hover { background: var(--accent); border-color: var(--accent); color: white; }
+
+    /* --- NAVIGATION --- */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px; mix-blend-mode: difference; color: white;
+    }
+    .logo { font-family: var(--font-display); font-size: 32px; font-weight: 700; letter-spacing: -0.05em; }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: white; text-decoration: none; font-size: 14px; text-transform: uppercase; font-weight: 600; }
+    @media(max-width: 768px) { .nav-links { display: none; } }
+
+    /* --- HERO --- */
+    .contact-hero {
+      padding: 160px 24px 60px; border-bottom: 1px solid var(--border);
+    }
+
+    /* --- SPLIT LAYOUT --- */
+    .contact-split {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 80vh; border-bottom: 1px solid var(--border);
+    }
+    @media(max-width: 900px) { .contact-split { grid-template-columns: 1fr; } }
+
+    /* --- INFO SIDE --- */
+    .info-side {
+      padding: 80px 40px; border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    @media(max-width: 900px) { 
+      .info-side { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 24px; } 
+    }
+
+    .data-block { margin-bottom: 60px; }
+    .data-label { 
+      font-family: var(--font-body); font-size: 10px; font-weight: 700; 
+      text-transform: uppercase; color: #666; margin-bottom: 8px; display: block;
+    }
+    .data-value {
+      font-family: var(--font-display); font-size: 32px; text-transform: uppercase;
+    }
+    .data-small { font-size: 16px; font-family: var(--font-body); }
+
+    /* --- FORM SIDE --- */
+    .form-side { padding: 80px 40px; background: #f4f4f5; }
+    @media(max-width: 900px) { .form-side { padding: 40px 24px; } }
+
+    .input-group { margin-bottom: 24px; position: relative; }
+    .input-field {
+      width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--text);
+      padding: 16px 0; font-family: var(--font-display); font-size: 24px; 
+      color: var(--text); outline: none; transition: 0.3s;
+      text-transform: uppercase;
+    }
+    .input-field::placeholder { color: #aaa; opacity: 1; }
+    .input-field:focus { border-bottom-color: var(--accent); color: var(--accent); }
+
+    /* --- FOOTER --- */
+    footer { padding: 80px 24px; background: var(--text); color: var(--bg); text-align: center; }
+    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 40px; }
+    .footer-links a { color: var(--bg); text-decoration: none; text-transform: uppercase; font-size: 12px; }
+
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">MUSE.</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">Manifesto</a>
+      <a href="services.html">Menu</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+    <div style="font-weight: 600; text-transform: uppercase; font-size: 14px;">Book Now</div>
+  </nav>
+
+  <header class="contact-hero">
+    <div class="label">Inquiries</div>
+    <h1>Get In Touch.</h1>
+  </header>
+
+  <div class="contact-split">
+    
+    <div class="info-side">
+      <div>
+        <div class="data-block">
+          <span class="data-label">Coordinates</span>
+          <div class="data-value">3904 Bainbridge Blvd</div>
+          <div class="data-small">Chesapeake, VA 23324</div>
+        </div>
+
+        <div class="data-block">
+          <span class="data-label">Direct Line</span>
+          <div class="data-value">(757) 543-2966</div>
+        </div>
+
+        <div class="data-block">
+          <span class="data-label">Press / Collabs</span>
+          <div class="data-value" style="font-size: 24px;">studio@musenorfolk.com</div>
+        </div>
+      </div>
+
+      <div class="data-block" style="margin-bottom: 0;">
+        <span class="data-label">Operating Hours</span>
+        <div class="data-small" style="font-weight: 600; text-transform: uppercase;">
+          TUE — SAT / 10AM — 8PM<br>
+          SUN — MON / CLOSED
+        </div>
+      </div>
+    </div>
+
+    <div class="form-side">
+      <h2 style="margin-bottom: 40px; font-size: 40px;">Intake Form</h2>
+      <form>
+        <div class="input-group">
+          <input type="text" class="input-field" placeholder="Full Name">
+        </div>
+        <div class="input-group">
+          <input type="email" class="input-field" placeholder="Email Address">
+        </div>
+        <div class="input-group">
+          <input type="text" class="input-field" placeholder="Subject">
+        </div>
+        <div class="input-group">
+          <input type="text" class="input-field" placeholder="Message">
+        </div>
+        
+        <div style="margin-top: 60px;">
+          <button class="btn">Transmit Data</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+  <footer>
+    <h2 style="margin-bottom: 40px;">MUSE.</h2>
+    <div class="footer-links">
+      <a href="#">Instagram</a>
+      <a href="#">TikTok</a>
+      <a href="#">Contact</a>
+    </div>
+    <div style="font-size: 12px; color: #888;">© 2026 Muse Studio. Powered by Net Studio.</div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

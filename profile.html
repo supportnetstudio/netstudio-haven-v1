@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MUSE — Stylist Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* --- CORE VARIABLES --- */
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --accent: #2563eb;
+      --border: #000000;
+      --font-display: 'Oswald', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    /* --- RESET --- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: var(--font-body); line-height: 1.5;
+      max-width: 480px; margin: 0 auto; /* App-width limit */
+      min-height: 100vh; position: relative;
+      border-left: 1px solid #eee; border-right: 1px solid #eee;
+    }
+
+    /* --- NAVIGATION --- */
+    .top-bar {
+      padding: 20px; display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--border); position: sticky; top: 0; background: white; z-index: 50;
+    }
+    .brand-mini { font-family: var(--font-display); font-weight: 700; font-size: 20px; letter-spacing: -0.05em; }
+    .back-btn { 
+      font-size: 11px; font-weight: 600; text-transform: uppercase; 
+      text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 4px; 
+    }
+
+    /* --- HERO --- */
+    .profile-hero {
+      position: relative;
+    }
+    .profile-img {
+      width: 100%; aspect-ratio: 3/4; object-fit: cover; filter: grayscale(100%);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .name-overlay {
+      background: var(--text); color: var(--bg); padding: 16px 20px;
+    }
+    .stylist-name {
+      font-family: var(--font-display); font-size: 48px; text-transform: uppercase; line-height: 0.9;
+    }
+    .stylist-role {
+      font-family: var(--font-body); font-size: 12px; font-weight: 600; 
+      text-transform: uppercase; letter-spacing: 0.1em; color: #ccc; margin-top: 4px;
+    }
+
+    /* --- SPECS --- */
+    .specs-grid {
+      display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border);
+    }
+    .spec-item {
+      padding: 16px 20px; border-right: 1px solid var(--border);
+    }
+    .spec-item:last-child { border-right: none; }
+    
+    .spec-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #666; display: block; margin-bottom: 4px; }
+    .spec-val { font-family: var(--font-display); font-size: 18px; text-transform: uppercase; }
+
+    /* --- ACTIONS --- */
+    .action-stack { padding: 20px; display: flex; flex-direction: column; gap: 12px; border-bottom: 1px solid var(--border); }
+    
+    .btn-main {
+      background: var(--accent); color: white; text-align: center;
+      padding: 18px; font-weight: 700; text-transform: uppercase; font-size: 14px;
+      text-decoration: none; letter-spacing: 0.05em; border: none; cursor: pointer;
+    }
+    .btn-main:hover { opacity: 0.9; }
+
+    .btn-row { display: flex; gap: 12px; }
+    .btn-sec {
+      flex: 1; border: 1px solid var(--border); background: transparent; color: var(--text);
+      padding: 12px; text-align: center; font-size: 12px; font-weight: 600; text-transform: uppercase;
+      text-decoration: none; transition: 0.2s;
+    }
+    .btn-sec:hover { background: var(--text); color: white; }
+
+    /* --- PORTFOLIO --- */
+    .portfolio-header {
+      padding: 20px; font-family: var(--font-display); font-size: 24px; text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .grid-feed {
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .feed-item {
+      aspect-ratio: 1/1; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .feed-item:nth-child(even) { border-right: none; }
+    
+    .feed-img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.3s; }
+    .feed-item:hover .feed-img { filter: grayscale(0%); transform: scale(1.05); }
+
+    /* --- FOOTER --- */
+    .mini-footer {
+      padding: 40px 20px; text-align: center; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="about.html" class="back-btn"><i data-lucide="arrow-left" style="width:14px"></i> Roster</a>
+    <div class="brand-mini">MUSE.</div>
+  </div>
+
+  <div class="profile-hero">
+    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600" class="profile-img">
+    <div class="name-overlay">
+      <h1 class="stylist-name">Sasha</h1>
+      <div class="stylist-role">Senior Stylist / Colorist</div>
+    </div>
+  </div>
+
+  <div class="specs-grid">
+    <div class="spec-item">
+      <span class="spec-label">Specialty</span>
+      <span class="spec-val">Vivids / Shag</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Experience</span>
+      <span class="spec-val">6 Years</span>
+    </div>
+  </div>
+
+  <div class="action-stack">
+    <button class="btn-main" onclick="openBooking()">
+      Book Appointment
+    </button>
+    <div class="btn-row">
+      <a href="#" class="btn-sec">Instagram</a>
+      <a href="#" class="btn-sec">TikTok</a>
+    </div>
+  </div>
+
+  <div class="portfolio-header">Recent Works</div>
+  <div class="grid-feed">
+    <div class="feed-item">
+      <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&q=80&w=400" class="feed-img">
+    </div>
+    <div class="feed-item">
+      <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&q=80&w=400" class="feed-img">
+    </div>
+    <div class="feed-item">
+      <img src="https://images.unsplash.com/photo-1520338661084-680395057c93?auto=format&fit=crop&q=80&w=400" class="feed-img">
+    </div>
+    <div class="feed-item">
+      <img src="https://images.unsplash.com/photo-1620331317329-3666f963bc69?auto=format&fit=crop&q=80&w=400" class="feed-img">
+    </div>
+  </div>
+
+  <div class="mini-footer">
+    Represented by Muse Studio<br>Norfolk, VA
+  </div>
+
+  <script>
+    lucide.createIcons();
+    function openBooking() { console.log("Open Widget"); }
+  </script>
+</body>
+</html>

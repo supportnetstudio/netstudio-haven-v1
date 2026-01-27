@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MUSE — Service Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* --- CORE VARIABLES --- */
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --accent: #2563eb;
+      --border: #000000;
+      --font-display: 'Oswald', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    /* --- RESET --- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: var(--font-body); line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* --- TYPOGRAPHY --- */
+    h1, h2, h3 { font-family: var(--font-display); text-transform: uppercase; line-height: 0.9; }
+    h1 { font-size: clamp(60px, 12vw, 150px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 20px; }
+    
+    .label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase; 
+      letter-spacing: 0.1em; border: 1px solid var(--text); 
+      padding: 6px 12px; display: inline-block; margin-bottom: 24px;
+    }
+
+    /* --- UTILITIES --- */
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+    .section-pad { padding: 80px 0; border-bottom: 1px solid var(--border); }
+    
+    /* --- NAVIGATION --- */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px; mix-blend-mode: difference; color: white;
+    }
+    .logo { font-family: var(--font-display); font-size: 32px; font-weight: 700; letter-spacing: -0.05em; }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: white; text-decoration: none; font-size: 14px; text-transform: uppercase; font-weight: 600; }
+    @media(max-width: 768px) { .nav-links { display: none; } }
+
+    /* --- HERO --- */
+    .menu-hero {
+      padding: 160px 24px 80px; border-bottom: 1px solid var(--border);
+    }
+
+    /* --- LINE SHEET LAYOUT --- */
+    .sheet-grid {
+      display: grid; grid-template-columns: 300px 1fr; 
+      border-bottom: 1px solid var(--border);
+    }
+    .sheet-header {
+      padding: 40px 24px; border-right: 1px solid var(--border);
+      font-family: var(--font-display); font-size: 60px; text-transform: uppercase;
+      position: sticky; top: 80px; height: fit-content;
+    }
+    
+    @media(max-width: 900px) {
+      .sheet-grid { grid-template-columns: 1fr; }
+      .sheet-header { 
+        border-right: none; border-bottom: 1px solid var(--border); 
+        padding: 24px; font-size: 40px; position: static;
+      }
+    }
+
+    /* --- SERVICE ITEM --- */
+    .service-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 30px 40px; border-bottom: 1px solid #e5e5e5;
+      transition: 0.2s;
+    }
+    .service-item:hover { background: #f8f8f8; }
+    .service-item:last-child { border-bottom: none; }
+    
+    .item-left { max-width: 70%; }
+    .item-name { 
+      font-family: var(--font-display); font-size: 24px; font-weight: 500; 
+      text-transform: uppercase; margin-bottom: 4px; display: block;
+    }
+    .item-meta { 
+      font-size: 12px; color: #666; font-family: 'Inter', monospace; text-transform: uppercase; 
+    }
+
+    .item-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .item-price { font-family: var(--font-display); font-size: 20px; font-weight: 600; }
+    
+    .book-tag {
+      font-size: 10px; font-weight: 700; text-transform: uppercase; 
+      padding: 4px 8px; background: var(--text); color: var(--bg);
+      opacity: 0; transform: translateY(5px); transition: 0.2s;
+    }
+    .service-item:hover .book-tag { opacity: 1; transform: translateY(0); }
+    
+    @media(max-width: 768px) {
+      .service-item { padding: 24px; align-items: flex-start; }
+      .book-tag { opacity: 1; transform: translateY(0); background: transparent; color: var(--text); border: 1px solid var(--text); padding: 4px 10px; }
+    }
+
+    /* --- FOOTER --- */
+    footer { padding: 80px 24px; background: var(--text); color: var(--bg); text-align: center; }
+    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 40px; }
+    .footer-links a { color: var(--bg); text-decoration: none; text-transform: uppercase; font-size: 12px; }
+
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">MUSE.</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">Manifesto</a>
+      <a href="services.html" class="active">Menu</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div style="font-weight: 600; text-transform: uppercase; font-size: 14px;">Book Now</div>
+  </nav>
+
+  <header class="menu-hero">
+    <div class="label">Line Sheet 2026</div>
+    <h1>The Index.</h1>
+  </header>
+
+  <div class="sheet-grid">
+    <div class="sheet-header">Cut</div>
+    <div>
+      <div class="service-item" onclick="openBooking()">
+        <div class="item-left">
+          <span class="item-name">The Muse Cut</span>
+          <span class="item-meta">Wash / Massage / Architectural Shape / Style</span>
+        </div>
+        <div class="item-right">
+          <span class="item-price">$90+</span>
+          <span class="book-tag">Select</span>
+        </div>
+      </div>
+      <div class="service-item" onclick="openBooking()">
+        <div class="item-left">
+          <span class="item-name">Wolf / Shag</span>
+          <span class="item-meta">Razor Technique / Heavy Texture / Diffuse</span>
+        </div>
+        <div class="item-right">
+          <span class="item-price">$110+</span>
+          <span class="book-tag">Select</span>
+        </div>
+      </div>
+      <div class="service-item" onclick="openBooking()">
+        <div class="item-left">
+          <span class="item-name">Fringe Trim</span>
+          <span class="item-meta">Bangs / Face Framing / Maintenance</span>
+        </div>
+        <div class="item-right">
+          <span class="item-price">$25</span>
+          <span class="book-tag">Select</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sheet-grid">
+    <div class="sheet-header">Color</div>
+    <div>
+      <div class="service-item" onclick="openBooking()">
+        <div class="item-left">
+          <span class="item-name">Global Bleach</span>
+          <span class="item-meta">Scalp Application / Bond Builder / Toner</span>
+        </div>
+        <div class="item-right">
+          <span class="item-price">$220+</span>
+          <span class="book-tag">Select</span>
+        </div>
+      </div>
+      <div class="service-item" onclick="openBooking()">
+        <div class="item-left">
+          <span class="item-name">Vivids (Fashion Color)</span>
+          <span class="item-meta">Requires Consultation / Charged Hourly</span>
+        </div>
+        <div class="item-right">
+          <span class="item-price">$120/hr</span>
+          <span class="book-tag">Select</span>
+        </div>
+      </div>
+      <div class="service-item" onclick="openBooking()">
+        <div class="item-left">
+          <span class="item-name">Corrective Color</span>
+          <span class="item-meta">Total Transformation / Charged Hourly</span>
+        </div>
+        <div class="item-right">
+          <span class="item-price">$150/hr</span>
+          <span class="book-tag">Select</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sheet-grid">
+    <div class="sheet-header">Style</div>
+    <div>
+      <div class="service-item" onclick="openBooking()">
+        <div class="item-left">
+          <span class="item-name">Blowout</span>
+          <span class="item-meta">Wash / Round Brush / Volume</span>
+        </div>
+        <div class="item-right">
+          <span class="item-price">$55</span>
+          <span class="book-tag">Select</span>
+        </div>
+      </div>
+      <div class="service-item" onclick="openBooking()">
+        <div class="item-left">
+          <span class="item-name">Editorial Styling</span>
+          <span class="item-meta">Updo / Braiding / Photoshoot Prep</span>
+        </div>
+        <div class="item-right">
+          <span class="item-price">$100+</span>
+          <span class="book-tag">Select</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <h2 style="margin-bottom: 40px;">MUSE.</h2>
+    <div class="footer-links">
+      <a href="#">Instagram</a>
+      <a href="#">TikTok</a>
+      <a href="#">Contact</a>
+    </div>
+    <div style="font-size: 12px; color: #888;">© 2026 Muse Studio. Powered by Net Studio.</div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    function openBooking() { console.log("Open Widget"); }
+  </script>
+</body>
+</html>

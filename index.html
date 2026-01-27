@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MUSE — Editorial Hair Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* --- CORE VARIABLES --- */
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --accent: #2563eb; /* Electric Blue for subtle pop */
+      --gray: #f4f4f5;
+      --border: #e4e4e7;
+      --font-display: 'Oswald', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    /* --- RESET --- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: var(--font-body); line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* --- TYPOGRAPHY --- */
+    h1, h2, h3 { font-family: var(--font-display); text-transform: uppercase; line-height: 0.9; }
+    h1 { font-size: clamp(60px, 15vw, 180px); font-weight: 700; letter-spacing: -0.02em; }
+    h2 { font-size: clamp(40px, 8vw, 80px); font-weight: 400; }
+    
+    .subtitle {
+      font-size: 12px; font-weight: 600; text-transform: uppercase; 
+      letter-spacing: 0.2em; display: block; margin-bottom: 20px;
+    }
+
+    /* --- UTILITIES --- */
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--text); color: var(--bg); padding: 16px 32px;
+      font-family: var(--font-body); font-weight: 600; text-transform: uppercase;
+      font-size: 12px; letter-spacing: 0.05em; text-decoration: none;
+      transition: 0.3s; border: 1px solid var(--text);
+    }
+    .btn:hover { background: transparent; color: var(--text); }
+    
+    .btn-outline {
+      background: transparent; color: var(--text); border: 1px solid var(--text);
+      padding: 16px 32px; font-weight: 600; text-transform: uppercase;
+      font-size: 12px; letter-spacing: 0.05em; text-decoration: none;
+      transition: 0.3s;
+    }
+    .btn-outline:hover { background: var(--text); color: var(--bg); }
+
+    /* --- NAVIGATION --- */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px; mix-blend-mode: difference; color: white;
+    }
+    .logo { font-family: var(--font-display); font-size: 32px; font-weight: 700; letter-spacing: -0.05em; }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: white; text-decoration: none; font-size: 14px; text-transform: uppercase; font-weight: 600; }
+    @media(max-width: 768px) { .nav-links { display: none; } }
+
+    /* --- HERO --- */
+    .hero {
+      height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 40px 24px; position: relative; border-bottom: 1px solid var(--text);
+    }
+    .hero-bg {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+      object-fit: cover; filter: grayscale(100%) contrast(1.1);
+    }
+    .hero-content {
+      position: relative; z-index: 2; mix-blend-mode: difference; color: white;
+    }
+
+    /* --- MARQUEE --- */
+    .marquee-wrap {
+      background: var(--text); color: var(--bg); padding: 16px 0; overflow: hidden; white-space: nowrap;
+    }
+    .marquee-content {
+      display: inline-block; animation: scroll 20s linear infinite;
+      font-family: var(--font-display); font-size: 24px; text-transform: uppercase;
+    }
+    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* --- EDITORIAL GRID --- */
+    .grid-section { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--text); }
+    @media(max-width: 768px) { .grid-section { grid-template-columns: 1fr; } }
+
+    .grid-img {
+      width: 100%; height: 100%; object-fit: cover; border-right: 1px solid var(--text);
+      min-height: 600px; filter: grayscale(100%); transition: 0.5s;
+    }
+    .grid-img:hover { filter: grayscale(0%); }
+    
+    .grid-content {
+      padding: 80px; display: flex; flex-direction: column; justify-content: center;
+    }
+    @media(max-width: 768px) { 
+        .grid-content { padding: 40px 24px; } 
+        .grid-img { border-right: none; border-bottom: 1px solid var(--text); height: 400px; min-height: auto; }
+    }
+
+    /* --- SERVICE LIST (Minimal) --- */
+    .service-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 24px 0; border-bottom: 1px solid #e5e5e5;
+    }
+    .service-name { font-family: var(--font-display); font-size: 24px; text-transform: uppercase; }
+    .service-price { font-family: var(--font-body); font-weight: 600; }
+
+    /* --- FOOTER --- */
+    footer { padding: 80px 24px; background: var(--text); color: var(--bg); text-align: center; }
+    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 40px; }
+    .footer-links a { color: var(--bg); text-decoration: none; text-transform: uppercase; font-size: 12px; }
+
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">MUSE.</div>
+    <div class="nav-links">
+      <a href="#">Work</a>
+      <a href="#">Studio</a>
+      <a href="#">Menu</a>
+    </div>
+    <div style="font-weight: 600; text-transform: uppercase; font-size: 14px;">Book Now</div>
+  </nav>
+
+  <header class="hero">
+    <img src="https://images.unsplash.com/photo-1605980776566-0486c39d486c?auto=format&fit=crop&q=80&w=1600" class="hero-bg">
+    
+    <div class="hero-content">
+      <div style="font-family: var(--font-body); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;">Norfolk, VA — Est 2024</div>
+      <h1>Define<br>Your Era.</h1>
+    </div>
+  </header>
+
+  <div class="marquee-wrap">
+    <div class="marquee-content">
+      &nbsp; • CUTS • COLOR • EXTENSIONS • STYLING • MUSE STUDIO • DEFINE YOUR ERA • CUTS • COLOR • EXTENSIONS • STYLING • MUSE STUDIO • DEFINE YOUR ERA
+    </div>
+  </div>
+
+  <section class="grid-section">
+    <div class="grid-content">
+      <span class="subtitle">The Vision</span>
+      <h2>Not Just Hair.<br>It's Identity.</h2>
+      <p style="max-width: 400px; margin-bottom: 40px; font-size: 18px; color: #444;">
+        We don't do "maintenance." We do transformations. Muse is a collective of artists specializing in modern shag, vivid color, and architectural cuts.
+      </p>
+      <a href="#book" class="btn">Book Appointment</a>
+    </div>
+    <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&q=80&w=800" class="grid-img">
+  </section>
+
+  <section class="container" style="padding: 100px 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px;">
+      <h2>Menu</h2>
+      <a href="#" class="btn-outline">Full Price List</a>
+    </div>
+
+    <div class="service-row">
+      <span class="service-name">The Wolf Cut</span>
+      <span class="service-price">$85+</span>
+    </div>
+    <div class="service-row">
+      <span class="service-name">Full Balayage</span>
+      <span class="service-price">$240+</span>
+    </div>
+    <div class="service-row">
+      <span class="service-name">Bleach & Tone</span>
+      <span class="service-price">$200+</span>
+    </div>
+    <div class="service-row">
+      <span class="service-name">Vivid Color</span>
+      <span class="service-price">$120/hr</span>
+    </div>
+  </section>
+
+  <section class="grid-section">
+    <img src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?auto=format&fit=crop&q=80&w=800" class="grid-img">
+    <div class="grid-content">
+      <span class="subtitle">The Studio</span>
+      <h2>A Space For<br>Creatives.</h2>
+      <p style="max-width: 400px; margin-bottom: 40px; font-size: 18px; color: #444;">
+        Located in the Arts District. Industrial vibes, natural light, and good playlists. Come hang.
+      </p>
+      <div style="display:flex; gap: 16px;">
+        <a href="#team" class="btn-outline">The Artists</a>
+        <a href="#gallery" class="btn-outline">Lookbook</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <h2 style="margin-bottom: 40px;">MUSE.</h2>
+    <div class="footer-links">
+      <a href="#">Instagram</a>
+      <a href="#">TikTok</a>
+      <a href="#">Contact</a>
+    </div>
+    <div style="font-size: 12px; color: #888;">© 2026 Muse Studio. Powered by Net Studio.</div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    // Universal Booking Trigger
+  </script>
+</body>
+</html>
