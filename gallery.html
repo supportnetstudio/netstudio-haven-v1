@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>The Haven — Portfolio</title>
+  <title>Gallery — Powered by Net Studio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,6 @@
   <script>
     window.nsOpenBooking = window.nsOpenBooking || function(payload = {}) {
       if (window.NetStudio && typeof window.NetStudio.open === "function") return window.NetStudio.open(payload);
-      if (typeof window.openBooking === "function") return window.openBooking(payload);
       console.warn("Booking engine loading...");
     };
   </script>
@@ -31,310 +30,170 @@
       --font-body: 'Lato', sans-serif;
     }
 
-    /* --- RESET --- */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg-body);
-      color: var(--text-main);
-      font-family: var(--font-body);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+    body { background: var(--bg-body); color: var(--text-main); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
 
-    /* --- TYPOGRAPHY --- */
     h1, h2, h3 { font-family: var(--font-heading); font-weight: 400; color: #2C2926; }
     h1 { font-size: clamp(36px, 5vw, 64px); line-height: 1.1; margin-bottom: 20px; }
-    .subtitle {
-      font-family: var(--font-body); font-size: 10px; letter-spacing: 0.2em; 
-      text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 12px;
-    }
+    .subtitle { font-family: var(--font-body); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 12px; }
 
-    /* --- UTILITIES --- */
     .container { max-width: 1000px; margin: 0 auto; padding: 0 40px; }
-    @media(max-width: 768px) { .container { padding: 0 24px; } }
+    .btn { display: inline-block; background: #2C2926; color: white; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-size: 12px; cursor: pointer; border: none; }
 
-    .btn {
-      display: inline-block; background: #2C2926; color: white;
-      padding: 12px 28px; border-radius: 50px; text-decoration: none;
-      font-size: 12px; letter-spacing: 0.05em; transition: 0.3s;
-      cursor: pointer; border: none;
-    }
-    .btn:hover { background: var(--accent); transform: translateY(-2px); }
-
-    /* --- NAVIGATION --- */
-    nav {
-      padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
-    }
-    .logo { font-family: var(--font-heading); font-size: 24px; font-weight: 600; letter-spacing: -0.02em; font-style: italic; }
+    nav { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-family: var(--font-heading); font-size: 24px; font-weight: 600; font-style: italic; }
     .nav-links { display: flex; gap: 40px; }
     .nav-links a { color: var(--text-main); text-decoration: none; font-size: 14px; }
     
-    @media(max-width: 768px) { 
-        nav { padding: 15px 20px; }
-        .nav-links { display: none; } 
-    }
-
-    /* --- GALLERY HEADER --- */
     .gallery-hero { text-align: center; padding: 60px 0 40px; }
-    
-    /* --- FILTER BAR --- */
-    .filter-bar {
-      display: flex; justify-content: center; gap: 30px; margin-bottom: 60px;
-      flex-wrap: wrap;
-    }
-    .filter-btn {
-      background: none; border: none; font-family: var(--font-heading);
-      font-size: 16px; color: var(--text-muted); cursor: pointer; transition: 0.3s;
-      font-style: italic; padding-bottom: 4px; border-bottom: 1px solid transparent;
-    }
-    .filter-btn:hover, .filter-btn.active { color: var(--accent); border-color: var(--accent); }
+    .filter-bar { display: flex; justify-content: center; gap: 30px; margin-bottom: 60px; flex-wrap: wrap; }
+    .filter-btn { background: none; border: none; font-family: var(--font-heading); font-size: 16px; color: var(--text-muted); cursor: pointer; font-style: italic; padding-bottom: 4px; border-bottom: 1px solid transparent; }
+    .filter-btn.active { color: var(--accent); border-color: var(--accent); }
 
-    /* --- MOODBOARD GRID --- */
-    .moodboard {
-      column-count: 2; column-gap: 40px; margin-bottom: 80px;
-    }
-    @media(max-width: 768px) { .moodboard { column-count: 1; } }
-
-    .look-card {
-      break-inside: avoid; margin-bottom: 60px;
-      display: flex; flex-direction: column;
-    }
-
-    .look-img-wrap {
-      width: 100%; border-radius: 8px; overflow: hidden; margin-bottom: 20px;
-      position: relative;
-    }
-    .look-img {
-      width: 100%; display: block; transition: transform 0.8s ease;
-    }
+    .moodboard { column-count: 2; column-gap: 40px; margin-bottom: 80px; }
+    .look-card { break-inside: avoid; margin-bottom: 60px; display: flex; flex-direction: column; }
+    .look-img-wrap { width: 100%; border-radius: 8px; overflow: hidden; margin-bottom: 20px; border: 1px solid rgba(0,0,0,0.05); }
+    .look-img { width: 100%; display: block; transition: transform 0.8s ease; }
     .look-card:hover .look-img { transform: scale(1.03); }
-
-    .look-meta {
-      display: flex; justify-content: space-between; align-items: baseline;
-    }
+    .look-meta { display: flex; justify-content: space-between; align-items: baseline; }
     .look-title { font-family: var(--font-heading); font-size: 20px; color: #2C2926; }
     .look-tags { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: block; }
-    
-    .book-look {
-      font-size: 11px; font-weight: 700; color: var(--accent); 
-      text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none;
-      border-bottom: 1px solid transparent; transition: 0.2s; cursor: pointer;
-    }
-    .book-look:hover { border-color: var(--accent); }
+    .book-look { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; text-decoration: none; border-bottom: 1px solid transparent; cursor: pointer; }
 
-    /* --- FOOTER --- */
-    footer { padding: 60px 0 30px; text-align: center; color: var(--text-muted); font-size: 12px; }
-
+    footer { padding: 60px 0 30px; text-align: center; color: var(--text-muted); font-size: 12px; border-top: 1px solid rgba(0,0,0,0.05); }
+    @media(max-width: 768px) { .moodboard { column-count: 1; } .nav-links { display: none; } }
+    #site-error { display: none; text-align: center; padding: 100px 20px; color: #666; font-size: 14px;}
   </style>
 </head>
-<body>
+<body id="gallery">
 
-  <nav>
-    <div class="logo" id="nav_logo">The Haven</div>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="about.html">Our Story</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <a href="#book" class="btn" onclick="window.nsOpenBooking(); return false;">Book</a>
-  </nav>
+  <div id="site-error"><h2>404</h2><p>Diary not found.</p></div>
 
-  <header class="container gallery-hero">
-    <span class="subtitle">The Portfolio</span>
-    <h1>Visual Diary</h1>
-  </header>
-
-  <main class="container">
-    
-    <div class="filter-bar" id="team_filter">
+  <div id="main-content" style="opacity: 0; transition: opacity 0.5s ease;">
+    <nav>
+      <div class="logo" id="nav_logo">The Haven</div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">Our Story</a>
+        <a href="services.html">Services</a>
       </div>
+      <a href="#book" class="btn" onclick="nsOpenBooking(); return false;">Book</a>
+    </nav>
 
-    <div class="moodboard" id="gallery_grid">
-      <div style="text-align:center; padding: 40px; color:#999;">Loading visuals...</div>
-    </div>
+    <header class="container gallery-hero">
+      <span id="gallery_kicker" class="subtitle"></span>
+      <h1 id="gallery_heading"></h1>
+    </header>
 
-  </main>
+    <main class="container">
+      <div class="filter-bar" id="team_filter"></div>
+      <div class="moodboard" id="gallery_grid"></div>
+    </main>
 
-  <footer>
-    <div class="container">
-      <div id="footer_logo" style="font-family: var(--font-heading); font-size: 24px; margin-bottom: 20px;">The Haven</div>
-      <p id="ns_address" style="margin-bottom: 20px;"></p>
-      <p>&copy; 2026 The Haven. Powered by Net Studio.</p>
-    </div>
-  </footer>
+    <footer>
+      <div class="container">
+        <div id="footer_logo" style="font-family: var(--font-heading); font-size: 24px; margin-bottom: 20px;"></div>
+        <p id="ns_address" style="margin-bottom: 20px;"></p>
+        <p id="footer_copy"></p>
+      </div>
+    </footer>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
   <script>
-    if (window.lucide) lucide.createIcons();
+    (() => {
+      const $ = (id) => document.getElementById(id);
+      const pick = (...vals) => vals.find(v => v !== undefined && v !== null && String(v).trim() !== "") || "";
 
-    /* --- UTILS --- */
-    function nsGetSlug() {
-      const q = new URLSearchParams(location.search).get("b");
-      if (q) return q.toLowerCase();
-      const h = location.hostname.toLowerCase();
-      const R = "netstudiodevelopment.com";
-      if (!h || h === "localhost" || h.startsWith("127.") || h === R || h === "www." + R) return null;
-      if (h.endsWith("." + R)) return h.slice(0, -(R.length + 1)).split(".")[0];
-      return null;
-    }
-
-    // ✅ PATCH 2: Context Helper
-    function nsSetBusinessContext(businessId) {
-      if (!businessId) return;
-      window.NS_BUSINESS_ID = businessId;
-      document.documentElement.setAttribute("data-business-id", businessId);
-      if (document.body) document.body.setAttribute("data-business-id", businessId);
-      try {
-        localStorage.setItem("ns_business_id", businessId);
-        sessionStorage.setItem("ns_business_id", businessId);
-      } catch(e) {}
-      try {
-        const u = new URL(location.href);
-        if (!u.searchParams.get("business_id")) {
-          u.searchParams.set("business_id", businessId);
-          history.replaceState({}, "", u.toString());
-        }
-      } catch(e) {}
-    }
-
-    // ✅ PATCH 3: Dynamic Script Loader
-    function nsLoadBookingEngine() {
-      return new Promise((resolve) => {
-        if (window.openBooking || (window.NetStudio && typeof window.NetStudio.open === "function")) return resolve(true);
-        const s = document.createElement("script");
-        s.src = "/netstudio_booking.js";
-        s.async = true;
-        s.onload = () => resolve(true);
-        s.onerror = () => resolve(false);
-        document.body.appendChild(s);
-      });
-    }
-
-    /* --- DATA & RENDER --- */
-    const SB_URL = "https://jdvdgvolfmvlgyfklbwe.supabase.co";
-    const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkdmRndm9sZm12bGd5ZmtsYndlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1Mjk5MDgsImV4cCI6MjA3OTEwNTkwOH0.xiAOgWof9En3jbCpY1vrYpj3HD-O6jMHbamIHTSflek";
-    const sb = supabase.createClient(SB_URL, SB_KEY);
-    const SLUG = nsGetSlug();
-
-    function renderFilters(members) {
-      const el = document.getElementById("team_filter");
-      if (!el) return;
-
-      el.innerHTML = `
-        <button class="filter-btn active" data-filter="all">All</button>
-        ${members.map(m => `
-          <button class="filter-btn" data-filter="${m.id}">${(m.name || "Artist").toUpperCase()}</button>
-        `).join("")}
-      `;
-
-      el.querySelectorAll(".filter-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-          el.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-          btn.classList.add("active");
-          renderGrid(window.__GALLERY_ROWS__ || [], btn.dataset.filter);
-        });
-      });
-    }
-
-    function renderGrid(rows, filterId = "all") {
-      const grid = document.getElementById("gallery_grid");
-      if (!grid) return;
-      grid.innerHTML = "";
-
-      let list = [];
-
-      // ✅ LOGIC: All = 'shop' type. Member ID = matches ID.
-      if (filterId === "all") {
-        list = rows.filter(r => r.type === 'shop');
-      } else {
-        list = rows.filter(r => String(r.team_member_id) === filterId);
+      function nsDetectSlug() {
+        const host = location.hostname.toLowerCase();
+        if (host.endsWith(".netstudiodevelopment.com")) return host.split(".")[0];
+        return new URLSearchParams(location.search).get("b");
       }
 
-      if (list.length === 0) {
-        grid.innerHTML = `<div style="text-align:center; padding: 40px; color: #999; break-inside: avoid;">No images found.</div>`;
-        return;
-      }
+      const NS = {
+        SB_URL: "https://jdvdgvolfmvlgyfklbwe.supabase.co",
+        SB_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkdmRndm9sZm12bGd5ZmtsYndlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1Mjk5MDgsImV4cCI6MjA3OTEwNTkwOH0.xiAOgWof9En3jbCpY1vrYpj3HD-O6jMHbamIHTSflek",
+        SLUG: nsDetectSlug(),
+        TEMPLATE: "haven_v1"
+      };
 
-      list.forEach(r => {
-        if (!r.image_url) return;
+      const sb = supabase.createClient(NS.SB_URL, NS.SB_KEY);
+      window.__GALLERY_DATA__ = [];
+      window.__TEAM_MAP__ = new Map();
+
+      function renderGrid(filterId = "all") {
+        const grid = $("gallery_grid");
+        const list = filterId === "all" ? window.__GALLERY_DATA__ : window.__GALLERY_DATA__.filter(i => i.team_member_id === filterId);
         
-        // Find member name if linked
-        const member = window.__TEAM_MAP__?.get(r.team_member_id);
-        const tagName = member ? `By ${member.name}` : (r.caption || "Look");
-        const category = member ? "Artist Portfolio" : "Shop Collection";
+        grid.innerHTML = list.length ? list.map(i => {
+          const artistName = window.__TEAM_MAP__.get(i.team_member_id);
+          const tagName = artistName ? `By ${artistName.split(' ')[0]}` : (i.caption || "Look");
+          const category = artistName ? "Artist Portfolio" : "Shop Collection";
 
-        // Specific Booking Action
-        const bookAction = member 
-            ? `window.nsOpenBooking({ staff_id: '${member.id}' })` 
-            : `window.nsOpenBooking()`;
-
-        grid.insertAdjacentHTML("beforeend", `
-          <div class="look-card">
-            <div class="look-img-wrap">
-              <img src="${r.image_url}" class="look-img" alt="Look">
-            </div>
-            <span class="look-tags">${category}</span>
-            <div class="look-meta">
-              <span class="look-title">${tagName}</span>
-              <a href="#book" class="book-look" onclick="${bookAction}; return false;">Book This Look</a>
-            </div>
-          </div>
-        `);
-      });
-    }
-
-    async function loadHavenGallery() {
-      if (!SLUG) return;
-
-      // 1. Business
-      const { data: biz } = await sb.from("business")
-        .select("id, name, street_address, city, state")
-        .eq("slug", SLUG).maybeSingle();
-      
-      if (!biz) return;
-
-      // ✅ PATCH 4: Set Context & Load Engine NOW
-      nsSetBusinessContext(biz.id);
-      await nsLoadBookingEngine();
-
-      // Branding
-      if (biz.name) {
-        if (document.getElementById("nav_logo")) document.getElementById("nav_logo").textContent = biz.name;
-        if (document.getElementById("footer_logo")) document.getElementById("footer_logo").textContent = biz.name;
+          return `
+            <div class="look-card">
+              <div class="look-img-wrap"><img src="${i.image_url}" class="look-img"></div>
+              <span class="look-tags">${category}</span>
+              <div class="look-meta">
+                <span class="look-title">${tagName}</span>
+                <a href="#book" class="book-look" onclick="nsOpenBooking({ staff_id: '${i.team_member_id || ''}' }); return false;">Book This Look</a>
+              </div>
+            </div>`;
+        }).join("") : `<p style="text-align:center; padding:40px; color:#999; grid-column: 1/-1;">No visuals found.</p>`;
       }
 
-      const addrEl = document.getElementById("ns_address");
-      if (addrEl && biz.street_address) {
-        addrEl.textContent = [biz.street_address, biz.city, biz.state].filter(Boolean).join(", ");
+      function apply(data, biz, images) {
+        const g = data.gallery || {};
+        const bName = biz.name || "The Haven";
+        if($("nav_logo")) $("nav_logo").textContent = bName;
+        if($("footer_logo")) $("footer_logo").textContent = bName;
+        if($("footer_copy")) $("footer_copy").textContent = `© ${new Date().getFullYear()} ${bName}. Powered by Net Studio.`;
+
+        if($("gallery_kicker")) $("gallery_kicker").textContent = pick(g.kicker, "The Portfolio");
+        if($("gallery_heading")) $("gallery_heading").textContent = pick(g.heading, "Visual Diary");
+
+        const addr = [biz.street_address, biz.city, biz.state].filter(Boolean).join(", ");
+        if($("ns_address")) $("ns_address").textContent = addr;
+
+        // Map team from public.business team_json
+        const teamArray = Array.isArray(biz.team_json) ? biz.team_json : [];
+        window.__TEAM_MAP__ = new Map(teamArray.map(m => [m.id || m.uuid, m.name || m.display_name]));
+        window.__GALLERY_DATA__ = images;
+
+        // Render Filters
+        const filterBar = $("team_filter");
+        filterBar.innerHTML = `<button class="filter-btn active" data-id="all">ALL</button>` + 
+          teamArray.map(m => `<button class="filter-btn" data-id="${m.id || m.uuid}">${(m.name || m.display_name).toUpperCase()}</button>`).join("");
+
+        filterBar.querySelectorAll(".filter-btn").forEach(btn => {
+          btn.onclick = () => {
+            filterBar.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            renderGrid(btn.dataset.id);
+          };
+        });
+
+        renderGrid("all");
+        $("main-content").style.opacity = "1";
       }
 
-      // 2. Team Members
-      const { data: members } = await sb.from("team_members")
-        .select("id, name, role")
-        .eq("business_id", biz.id)
-        .eq("is_active", true)
-        .not("auth_user_id", "is", null);
-      
-      const validMembers = members || [];
-      window.__TEAM_MAP__ = new Map(validMembers.map(m => [m.id, m]));
+      async function init() {
+        if (!NS.SLUG) { $("site-error").style.display = "block"; return; }
+        const { data: biz } = await sb.from("business").select("*").eq("slug", NS.SLUG).maybeSingle();
+        if (!biz) { $("site-error").style.display = "block"; return; }
 
-      // 3. Gallery (Fetch All, Exclude Profile Pics)
-      const { data: images } = await sb.from("gallery_image")
-        .select("id, image_url, team_member_id, caption, type")
-        .eq("business_id", biz.id)
-        .eq("is_profile", false)
-        .order("created_at", { ascending: false });
+        window.NS_BUSINESS_ID = biz.id;
 
-      window.__GALLERY_ROWS__ = images || [];
+        const [siteRes, imgRes] = await Promise.all([
+          sb.from("business_sites").select("content_json").eq("business_id", biz.id).eq("template_key", NS.TEMPLATE).maybeSingle(),
+          sb.from("gallery_image").select("*").eq("business_id", biz.id).eq("is_profile", false).order("created_at", { ascending: false })
+        ]);
 
-      // 4. Render
-      renderFilters(validMembers);
-      renderGrid(window.__GALLERY_ROWS__, "all");
-    }
-
-    loadHavenGallery();
+        apply(siteRes.data?.content_json || {}, biz, imgRes.data || []);
+      }
+      init();
+    })();
   </script>
 </body>
 </html>
