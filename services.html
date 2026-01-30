@@ -45,7 +45,7 @@
       display: inline-block; background: #2C2926; color: white;
       padding: 12px 28px; border-radius: 50px; text-decoration: none;
       font-size: 12px; letter-spacing: 0.05em; transition: 0.3s;
-      border: none; cursor: pointer; /* Reset for button tag */
+      border: none; cursor: pointer;
     }
     .btn:hover { background: var(--accent); transform: translateY(-2px); }
 
@@ -125,83 +125,7 @@
 
   <main class="container">
     
-    <div class="menu-category">
-      <h2 class="cat-title">Color & Light</h2>
-      
-      <div class="menu-item">
-        <div class="item-info">
-          <div class="item-name">Lived-In Balayage</div>
-          <div class="item-desc">Hand-painted highlights for a seamless, sun-kissed grow out. Includes gloss and bond builder.</div>
-        </div>
-        <div class="item-action">
-          <span class="item-price">$220+</span>
-          <button type="button" class="btn-book-mini" onclick="openBooking()">Book</button>
-        </div>
-      </div>
-
-      <div class="menu-item">
-        <div class="item-info">
-          <div class="item-name">Full Dimensional Color</div>
-          <div class="item-desc">Root melt combined with foils or painting for maximum depth and coverage.</div>
-        </div>
-        <div class="item-action">
-          <span class="item-price">$260+</span>
-          <button type="button" class="btn-book-mini" onclick="openBooking()">Book</button>
-        </div>
-      </div>
-
-      <div class="menu-item">
-        <div class="item-info">
-          <div class="item-name">Gloss & Tone</div>
-          <div class="item-desc">Refresh your tone and add mirror-like shine in between lifting appointments.</div>
-        </div>
-        <div class="item-action">
-          <span class="item-price">$85</span>
-          <button type="button" class="btn-book-mini" onclick="openBooking()">Book</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="menu-category">
-      <h2 class="cat-title">Shape & Form</h2>
-      
-      <div class="menu-item">
-        <div class="item-info">
-          <div class="item-name">Transformation Cut</div>
-          <div class="item-desc">A complete restyle. Includes extended consultation, wash, massage, and blowout.</div>
-        </div>
-        <div class="item-action">
-          <span class="item-price">$110</span>
-          <button type="button" class="btn-book-mini" onclick="openBooking()">Book</button>
-        </div>
-      </div>
-
-      <div class="menu-item">
-        <div class="item-info">
-          <div class="item-name">Maintenance Cut</div>
-          <div class="item-desc">Dusting ends and reshaping layers to maintain health.</div>
-        </div>
-        <div class="item-action">
-          <span class="item-price">$85</span>
-          <button type="button" class="btn-book-mini" onclick="openBooking()">Book</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="menu-category">
-      <h2 class="cat-title">Therapies</h2>
-      
-      <div class="menu-item">
-        <div class="item-info">
-          <div class="item-name">Japanese Head Spa (60 min)</div>
-          <div class="item-desc">Deep scalp detox, steam therapy, and extended massage to promote circulation and growth.</div>
-        </div>
-        <div class="item-action">
-          <span class="item-price">$150</span>
-          <button type="button" class="btn-book-mini" onclick="openBooking()">Book</button>
-        </div>
-      </div>
-    </div>
+    <div id="nsMenuMount"></div>
 
     <div class="policy-box">
       <h4 style="font-family:var(--font-heading); margin-bottom:10px;">A Note on Cancellations</h4>
@@ -265,8 +189,6 @@
       if (error || !data) return null;
 
       window.BUSINESS_ID = data.id;
-
-      // ✅ critical for your universal booking engine (DOM > Cache > URL)
       document.body.dataset.businessId = data.id;
 
       return data;
@@ -293,7 +215,6 @@
       const topBtn = document.getElementById("nsBookNowBtn");
       if (topBtn) topBtn.addEventListener("click", () => window.openBooking && window.openBooking());
 
-      // safety: if any old anchors exist, stop jumping
       document.querySelectorAll('a.btn[href="#book"]').forEach(a => {
         a.addEventListener("click", (e) => {
           e.preventDefault();
@@ -302,13 +223,107 @@
       });
     }
 
+    // --- NEW: Menu Data Fetcher ---
+    async function nsLoadMenuItems() {
+      if (!window.BUSINESS_ID) return [];
+
+      const { data, error } = await sb
+        .from("menu_items")
+        .select("id,section,name,description,price,price_cents,is_active")
+        .eq("business_id", window.BUSINESS_ID)
+        .eq("is_active", true)
+        .order("section", { ascending: true })
+        .order("name", { ascending: true });
+
+      if (error) {
+        console.warn("nsLoadMenuItems error:", error.message);
+        return [];
+      }
+      return data || [];
+    }
+
+    // --- NEW: Price Formatter ---
+    function nsMoneyFromRow(row) {
+      if (typeof row.price_cents === "number") {
+        const dollars = row.price_cents / 100;
+        return Number.isFinite(dollars) ? `$${dollars.toFixed(2)}` : "";
+      }
+      if (row.price != null && String(row.price).trim() !== "") {
+        const raw = String(row.price).trim();
+        if (raw.startsWith("$")) return raw;
+        const n = Number(raw.replace(/[^\d.]/g, ""));
+        if (Number.isFinite(n)) {
+          const suffix = raw.includes("+") ? "+" : "";
+          return `$${n.toFixed(0)}${suffix}`;
+        }
+        return raw;
+      }
+      return "";
+    }
+
+    // --- NEW: Safety Escaping ---
+    function nsEscapeHtml(s) {
+      return String(s || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    // --- NEW: Layout Renderer (Haven Style) ---
+    function nsRenderMenu(items) {
+      const mount = document.getElementById("nsMenuMount");
+      if (!mount) return;
+
+      if (!items.length) {
+        mount.innerHTML = `
+          <div class="menu-category" style="margin-top:60px;">
+            <h2 class="cat-title">Services</h2>
+            <p style="color:var(--text-muted);">No services found.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const groups = {};
+      for (const r of items) {
+        const key = (r.section || "Services").trim() || "Services";
+        (groups[key] ||= []).push(r);
+      }
+
+      mount.innerHTML = Object.entries(groups).map(([section, rows]) => {
+        return `
+          <div class="menu-category">
+            <h2 class="cat-title">${nsEscapeHtml(section)}</h2>
+
+            ${rows.map(r => `
+              <div class="menu-item">
+                <div class="item-info">
+                  <div class="item-name">${nsEscapeHtml(r.name)}</div>
+                  ${r.description ? `<div class="item-desc">${nsEscapeHtml(r.description)}</div>` : `<div class="item-desc"></div>`}
+                </div>
+
+                <div class="item-action">
+                  <span class="item-price">${nsEscapeHtml(nsMoneyFromRow(r))}</span>
+                  <button type="button" class="btn-book-mini" onclick="openBooking('${r.id}')">Book</button>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }).join("");
+    }
+
+    // --- Main Execution ---
     (async () => {
       const biz = await nsLoadBusiness();
       nsApplyBranding(biz);
       nsWireBookNow();
 
-      // if the booking engine script is included, this ensures it sees BUSINESS_ID via body dataset
-      // (no need to call it manually)
+      // Dynamic Menu Load
+      const items = await nsLoadMenuItems();
+      nsRenderMenu(items);
     })();
   </script>
 
