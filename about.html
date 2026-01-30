@@ -2,203 +2,395 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MUSE — The Manifesto</title>
+  <title>The Haven — Our Story</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
   <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    window.nsOpenBooking = window.nsOpenBooking || function(payload = {}) {
+      if (window.NetStudio && typeof window.NetStudio.open === "function") return window.NetStudio.open(payload);
+      if (typeof window.openBooking === "function") return window.openBooking(payload);
+      console.warn("Booking engine loading...");
+    };
+  </script>
+
   <style>
     /* --- CORE VARIABLES --- */
     :root {
-      --bg: #ffffff;
-      --text: #000000;
-      --accent: #2563eb;
-      --border: #000000;
-      --font-display: 'Oswald', sans-serif;
-      --font-body: 'Inter', sans-serif;
+      --bg-body: #FDFBF7; 
+      --bg-alt: #F3EFE7; 
+      --text-main: #3D3A36; 
+      --text-muted: #8C8680;
+      --accent: #B08968; 
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Lato', sans-serif;
     }
 
     /* --- RESET --- */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: var(--bg); color: var(--text);
-      font-family: var(--font-body); line-height: 1.5;
+      background: var(--bg-body);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
       overflow-x: hidden;
     }
 
     /* --- TYPOGRAPHY --- */
-    h1, h2, h3 { font-family: var(--font-display); text-transform: uppercase; line-height: 0.9; }
-    h1 { font-size: clamp(80px, 15vw, 200px); font-weight: 700; letter-spacing: -0.04em; margin-bottom: 40px; }
-    h2 { font-size: clamp(40px, 6vw, 80px); font-weight: 500; }
+    h1, h2, h3 { font-family: var(--font-heading); font-weight: 400; color: #2C2926; }
+    h1 { font-size: clamp(36px, 5vw, 64px); line-height: 1.1; margin-bottom: 20px; }
+    h2 { font-size: 32px; margin-bottom: 16px; }
     
-    .label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase; 
-      letter-spacing: 0.1em; border: 1px solid var(--text); 
-      padding: 6px 12px; display: inline-block; margin-bottom: 24px;
+    .subtitle {
+      font-family: var(--font-body); font-size: 10px; letter-spacing: 0.2em; 
+      text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 12px;
     }
-    
-    .lead { font-size: clamp(18px, 2vw, 24px); line-height: 1.4; font-weight: 400; max-width: 800px; }
+    .lead-text { font-size: 18px; font-weight: 300; color: var(--text-main); max-width: 700px; margin: 0 auto; }
 
     /* --- UTILITIES --- */
-    .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
-    .section-pad { padding: 120px 0; border-bottom: 1px solid var(--border); }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 40px; }
+    .section-pad { padding: 80px 0; }
+    
+    @media(max-width: 768px) {
+      .container { padding: 0 24px; }
+      .section-pad { padding: 50px 0; }
+    }
     
     .btn {
-      display: inline-flex; background: var(--text); color: var(--bg);
-      padding: 16px 32px; font-family: var(--font-body); font-weight: 600; 
-      text-transform: uppercase; font-size: 12px; letter-spacing: 0.05em; 
-      text-decoration: none; transition: 0.3s;
+      display: inline-block; background: #2C2926; color: white;
+      padding: 12px 28px; border-radius: 50px; text-decoration: none;
+      font-size: 12px; letter-spacing: 0.05em; transition: 0.3s;
+      cursor: pointer; border: none;
     }
-    .btn:hover { background: var(--accent); color: white; }
+    .btn:hover { background: var(--accent); transform: translateY(-2px); }
 
     /* --- NAVIGATION --- */
     nav {
-      position: fixed; top: 0; width: 100%; z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 24px; mix-blend-mode: difference; color: white;
+      padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
     }
-    .logo { font-family: var(--font-display); font-size: 32px; font-weight: 700; letter-spacing: -0.05em; }
-    .nav-links { display: flex; gap: 32px; }
-    .nav-links a { color: white; text-decoration: none; font-size: 14px; text-transform: uppercase; font-weight: 600; }
-    @media(max-width: 768px) { .nav-links { display: none; } }
-
-    /* --- HERO --- */
-    .manifesto-hero {
-      padding: 160px 24px 80px; border-bottom: 1px solid var(--border);
-    }
-
-    /* --- IMAGE BREAK --- */
-    .img-break {
-      width: 100%; height: 60vh; object-fit: cover; 
-      border-bottom: 1px solid var(--border); filter: grayscale(100%);
-    }
-
-    /* --- ROSTER (The Artist List) --- */
-    .roster-list { display: flex; flex-direction: column; }
-    .roster-item {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 40px 24px; border-bottom: 1px solid var(--border);
-      transition: 0.3s; cursor: pointer; position: relative; overflow: hidden;
-    }
-    .roster-item:hover { background: var(--text); color: var(--bg); }
+    .logo { font-family: var(--font-heading); font-size: 24px; font-weight: 600; letter-spacing: -0.02em; font-style: italic; }
+    .nav-links { display: flex; gap: 40px; }
+    .nav-links a { color: var(--text-main); text-decoration: none; font-size: 14px; }
     
-    .artist-name { font-family: var(--font-display); font-size: 60px; text-transform: uppercase; z-index: 2; }
-    .artist-role { font-family: var(--font-body); font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; z-index: 2; }
+    @media(max-width: 768px) { 
+        nav { padding: 15px 20px; }
+        .nav-links { display: none; } 
+    }
+
+    /* --- STORY HERO --- */
+    .story-hero { text-align: center; padding: 60px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+
+    /* --- SPLIT LAYOUT --- */
+    .split-section {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+      margin-top: 60px;
+    }
+    .split-reverse { direction: rtl; }
+    .split-reverse > * { direction: ltr; }
+    
+    .img-frame {
+      width: 100%; aspect-ratio: 3/4; border-radius: 200px 200px 0 0; overflow: hidden;
+    }
+    .img-frame img { width: 100%; height: 100%; object-fit: cover; }
     
     @media(max-width: 768px) {
-      .artist-name { font-size: 32px; }
-      .roster-item { padding: 24px; }
+      .split-section { grid-template-columns: 1fr; gap: 30px; margin-top: 40px; }
+      .split-reverse { direction: ltr; }
+      .img-frame { order: -1; aspect-ratio: 16/9; border-radius: 12px; }
     }
 
-    /* --- MARQUEE --- */
-    .marquee-wrap {
-      background: var(--text); color: var(--bg); padding: 20px 0; overflow: hidden; white-space: nowrap;
+    /* --- VALUES GRID --- */
+    .values-bg { background: var(--bg-alt); padding: 80px 0; margin-top: 80px; }
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; text-align: center; }
+    @media(max-width: 768px) { 
+        .values-bg { padding: 50px 0; margin-top: 50px; }
+        .values-grid { grid-template-columns: 1fr; gap: 30px; } 
     }
-    .marquee-content {
-      display: inline-block; animation: scroll 15s linear infinite;
-      font-family: var(--font-display); font-size: 80px; text-transform: uppercase; line-height: 1;
+
+    /* --- TEAM (UPDATED WITH BUTTONS) --- */
+    .team-grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+        gap: 40px; margin-top: 40px; 
     }
-    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .team-card { text-align: center; display: flex; flex-direction: column; align-items: center; }
+    
+    .team-img-wrap {
+      width: 140px; height: 140px; border-radius: 50%; overflow: hidden; margin-bottom: 15px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .team-img { 
+        width: 100%; height: 100%; object-fit: cover; 
+        filter: grayscale(100%); transition: 0.4s;
+    }
+    .team-card:hover .team-img { filter: grayscale(0%); }
+    
+    .team-role { font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; display: block; margin-bottom: 16px; }
+
+    /* ACTION BUTTONS */
+    .action-row {
+      display: flex; gap: 8px; justify-content: center; width: 100%;
+    }
+    .btn-sm {
+      background: #2C2926; color: white; border: 1px solid #2C2926;
+      padding: 8px 16px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em;
+      border-radius: 50px; cursor: pointer; transition: 0.2s;
+    }
+    .btn-outline-sm {
+      background: transparent; color: #2C2926; border: 1px solid #2C2926;
+      padding: 8px 16px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em;
+      border-radius: 50px; cursor: pointer; transition: 0.2s;
+    }
+    .btn-sm:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-outline-sm:hover { border-color: var(--accent); color: var(--accent); }
+
+    @media(max-width: 768px) {
+        .team-grid { grid-template-columns: 1fr 1fr; gap: 20px; padding: 0 10px; }
+        .team-img-wrap { width: 100px; height: 100px; }
+        .team-card h3 { font-size: 15px; margin-bottom: 2px; }
+        .team-role { font-size: 9px; margin-bottom: 12px; }
+        .action-row { flex-direction: column; gap: 6px; width: 100%; } 
+        .btn-sm, .btn-outline-sm { width: 100%; }
+    }
 
     /* --- FOOTER --- */
-    footer { padding: 80px 24px; background: var(--text); color: var(--bg); text-align: center; }
-    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 40px; }
-    .footer-links a { color: var(--bg); text-decoration: none; text-transform: uppercase; font-size: 12px; }
+    footer { padding: 60px 0 30px; text-align: center; color: var(--text-muted); font-size: 12px; }
 
   </style>
 </head>
 <body>
 
   <nav>
-    <div class="logo">MUSE.</div>
+    <div class="logo" id="nav_logo">The Haven</div>
     <div class="nav-links">
       <a href="index.html">Home</a>
-      <a href="about.html" class="active">Manifesto</a>
-      <a href="services.html">Menu</a>
+      <a href="services.html">Services</a>
+      <a href="about.html" class="active">Our Story</a>
       <a href="contact.html">Contact</a>
     </div>
-    <div style="font-weight: 600; text-transform: uppercase; font-size: 14px;">Book Now</div>
+    <a href="#book" class="btn" onclick="window.nsOpenBooking(); return false;">Book</a>
   </nav>
 
-  <header class="manifesto-hero">
-    <div class="label">The Philosophy</div>
-    <h1>Anti-Normal.</h1>
-    <p class="lead">
-      Muse wasn't built to maintain the status quo. We exist to disrupt it. 
-      We are an experimental studio where hair is treated as a medium of expression, 
-      not just an accessory.
+  <header class="container story-hero">
+    <span class="subtitle">Est. 2021</span>
+    <h1>A Sanctuary for <br>Self-Care.</h1>
+    <p class="lead-text" id="bio_text">
+      The Haven was born from a desire to slow down. In a world that rushes, 
+      we created a space where beauty is a ritual, not a race.
     </p>
   </header>
 
-  <img src="https://images.unsplash.com/photo-1520338661084-680395057c93?auto=format&fit=crop&q=80&w=1600" class="img-break">
-
-  <section class="container section-pad">
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;">
-      <div>
-        <h2>The Studio</h2>
+  <main class="container">
+    
+    <div class="split-section">
+      <div class="img-frame">
+        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80&w=800" alt="Salon Interior">
       </div>
       <div>
-        <p style="font-size: 18px; margin-bottom: 30px;">
-          Located in the gritty heart of the Arts District, our space is an industrial 
-          blank canvas. Concrete floors, exposed ducts, and high-flash photography lighting.
+        <span class="subtitle">The Vision</span>
+        <h2>Holistic Beauty</h2>
+        <p style="color:var(--text-muted); margin-bottom: 20px;">
+          We believe that healthy hair starts with a healthy environment. That implies 
+          using organic, low-toxin color lines and sustainable products that nourish 
+          rather than strip.
         </p>
-        <p style="font-size: 18px; margin-bottom: 40px;">
-          We stripped away the "salon" fluff. No cucumber water. No gossip magazines. 
-          Just raw creativity and the best sound system in the city.
+        <p style="color:var(--text-muted);">
+          Our studio is designed as a calm respite—neutral tones, natural light, 
+          and quiet corners. It is a place to exhale.
         </p>
-        <a href="#book" class="btn">Book The Space</a>
       </div>
     </div>
-  </section>
 
-  <div class="marquee-wrap">
-    <div class="marquee-content">
-      NO BAD HAIR DAYS • DEFINE YOUR ERA • MUSE STUDIO • NO BAD HAIR DAYS • DEFINE YOUR ERA • MUSE STUDIO •
+    <div class="split-section split-reverse">
+      <div class="img-frame" style="border-radius: 0 0 200px 200px;">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800" alt="Hair Texture">
+      </div>
+      <div>
+        <span class="subtitle">The Craft</span>
+        <h2>Artistry & Patience</h2>
+        <p style="color:var(--text-muted); margin-bottom: 20px;">
+          Great color takes time. Our stylists are trained in "Lived-In" techniques 
+          that allow your hair to grow out seamlessly, extending the life of your color 
+          and maintaining the integrity of your strands.
+        </p>
+        <p style="color:var(--text-muted);">
+          We don't double book. When you are in our chair, you have our undivided attention.
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="values-bg">
+    <div class="container">
+      <div class="values-grid">
+        <div>
+          <h3 style="font-size: 22px; margin-bottom: 12px;">Organic First</h3>
+          <p style="font-size: 13px; color: var(--text-muted);">
+            We prioritize ammonia-free color and cruelty-free products.
+          </p>
+        </div>
+        <div>
+          <h3 style="font-size: 22px; margin-bottom: 12px;">Inclusive Space</h3>
+          <p style="font-size: 13px; color: var(--text-muted);">
+            All textures, all backgrounds, all people are celebrated here.
+          </p>
+        </div>
+        <div>
+          <h3 style="font-size: 22px; margin-bottom: 12px;">Transparent Pricing</h3>
+          <p style="font-size: 13px; color: var(--text-muted);">
+            No surprise add-ons. Our session-based pricing is clear.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <section>
-    <div class="container" style="padding-top: 100px; padding-bottom: 40px;">
-      <div class="label">The Talent</div>
-      <h2 style="margin-bottom: 40px;">Roster</h2>
+  <div class="container section-pad">
+    <div style="text-align: center; margin-bottom: 40px;">
+      <span class="subtitle">The Collective</span>
+      <h2>Meet The Artisans</h2>
     </div>
-    
-    <div class="roster-list">
-      <div class="roster-item">
-        <span class="artist-name">Jinx</span>
-        <span class="artist-role">Creative Director</span>
-      </div>
-      <div class="roster-item">
-        <span class="artist-name">Kairo</span>
-        <span class="artist-role">Color Specialist</span>
-      </div>
-      <div class="roster-item">
-        <span class="artist-name">Sasha</span>
-        <span class="artist-role">Extensions / Editorial</span>
-      </div>
-      <div class="roster-item">
-        <span class="artist-name">Nico</span>
-        <span class="artist-role">Senior Stylist</span>
-      </div>
+
+    <div class="team-grid" id="team_grid">
+      <div style="grid-column:1/-1; text-align:center; padding:40px; color:#999;">Loading artisans...</div>
     </div>
-  </section>
+  </div>
 
   <footer>
-    <h2 style="margin-bottom: 40px;">MUSE.</h2>
-    <div class="footer-links">
-      <a href="#">Instagram</a>
-      <a href="#">TikTok</a>
-      <a href="#">Contact</a>
+    <div class="container">
+      <div id="footer_logo" style="font-family: var(--font-heading); font-size: 24px; margin-bottom: 20px;">The Haven</div>
+      <p id="ns_address" style="margin-bottom: 20px;"></p>
+      <p>&copy; 2026 The Haven. Powered by Net Studio.</p>
     </div>
-    <div style="font-size: 12px; color: #888;">© 2026 Muse Studio. Powered by Net Studio.</div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
   <script>
-    lucide.createIcons();
-    // Hover effects logic would go here
+    if (window.lucide) lucide.createIcons();
+
+    /* --- UTILS --- */
+    function nsGetSlug() {
+      const q = new URLSearchParams(location.search).get("b");
+      if (q) return q.toLowerCase();
+      const h = location.hostname.toLowerCase();
+      const R = "netstudiodevelopment.com";
+      if (!h || h === "localhost" || h.startsWith("127.") || h === R || h === "www." + R) return null;
+      if (h.endsWith("." + R)) return h.slice(0, -(R.length + 1)).split(".")[0];
+      return null;
+    }
+
+    // ✅ PATCH 2: Context Helper
+    function nsSetBusinessContext(businessId) {
+      if (!businessId) return;
+      window.NS_BUSINESS_ID = businessId;
+      document.documentElement.setAttribute("data-business-id", businessId);
+      if (document.body) document.body.setAttribute("data-business-id", businessId);
+      try {
+        localStorage.setItem("ns_business_id", businessId);
+        sessionStorage.setItem("ns_business_id", businessId);
+      } catch(e) {}
+      try {
+        const u = new URL(location.href);
+        if (!u.searchParams.get("business_id")) {
+          u.searchParams.set("business_id", businessId);
+          history.replaceState({}, "", u.toString());
+        }
+      } catch(e) {}
+    }
+
+    // ✅ PATCH 3: Dynamic Script Loader
+    function nsLoadBookingEngine() {
+      return new Promise((resolve) => {
+        if (window.openBooking || (window.NetStudio && typeof window.NetStudio.open === "function")) return resolve(true);
+        const s = document.createElement("script");
+        s.src = "/netstudio_booking.js";
+        s.async = true;
+        s.onload = () => resolve(true);
+        s.onerror = () => resolve(false);
+        document.body.appendChild(s);
+      });
+    }
+
+    /* --- DATA RENDERERS --- */
+    function renderTeam(members) {
+      const grid = document.getElementById("team_grid");
+      if(!grid) return;
+      
+      if(!members || members.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; color:#999;">No active artisans found.</div>`;
+        return;
+      }
+
+      grid.innerHTML = members.map(m => `
+        <div class="team-card">
+          <div class="team-img-wrap">
+            <img src="${m.profile_image_url || 'https://via.placeholder.com/400'}" class="team-img" alt="${m.name}">
+          </div>
+          <h3 style="font-size: 18px;">${m.name.split(' ')[0]}</h3>
+          <span class="team-role">${m.role || "Artisan"}</span>
+          <div class="action-row">
+            <button class="btn-sm" onclick="window.nsOpenBooking({ staff_id: '${m.id}' }); return false;">Book</button>
+            <button class="btn-outline-sm" onclick="window.location.href='team.html?staff_id=${m.id}'">Profile</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    /* --- MAIN LOAD --- */
+    const SB_URL = "https://jdvdgvolfmvlgyfklbwe.supabase.co";
+    const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkdmRndm9sZm12bGd5ZmtsYndlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1Mjk5MDgsImV4cCI6MjA3OTEwNTkwOH0.xiAOgWof9En3jbCpY1vrYpj3HD-O6jMHbamIHTSflek";
+    const sb = supabase.createClient(SB_URL, SB_KEY);
+    const SLUG = nsGetSlug();
+
+    async function loadHavenAbout() {
+      if (!SLUG) return;
+
+      // 1. Business Info
+      const { data: biz } = await sb.from("business")
+        .select("id, name, street_address, city, state, bio")
+        .eq("slug", SLUG).maybeSingle();
+      
+      if (!biz) return;
+
+      // ✅ PATCH 4: Context & Engine
+      nsSetBusinessContext(biz.id);
+      await nsLoadBookingEngine();
+
+      // Branding
+      if (biz.name) {
+        if(document.getElementById("nav_logo")) document.getElementById("nav_logo").textContent = biz.name;
+        if(document.getElementById("footer_logo")) document.getElementById("footer_logo").textContent = biz.name;
+      }
+
+      // Address
+      const addrEl = document.getElementById("ns_address");
+      if (addrEl && biz.street_address) {
+        addrEl.textContent = [biz.street_address, biz.city, biz.state].filter(Boolean).join(", ");
+      }
+
+      // Bio Injection
+      if (biz.bio && document.getElementById("bio_text")) {
+        document.getElementById("bio_text").textContent = biz.bio;
+      }
+
+      // 2. Fetch Active Team
+      const { data: members } = await sb.from("team_members")
+        .select("id, name, role, profile_image_url")
+        .eq("business_id", biz.id)
+        .eq("is_active", true)
+        .not("auth_user_id", "is", null);
+
+      renderTeam(members || []);
+    }
+
+    loadHavenAbout();
   </script>
 </body>
 </html>
