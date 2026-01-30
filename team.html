@@ -22,17 +22,9 @@
       --font-body: 'Lato', sans-serif;
     }
 
-    /* --- RESET --- */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg-body);
-      color: var(--text-main);
-      font-family: var(--font-body);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+    body { background: var(--bg-body); color: var(--text-main); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
 
-    /* --- TYPOGRAPHY --- */
     h1, h2, h3 { font-family: var(--font-heading); font-weight: 400; color: #2C2926; }
     h1 { font-size: clamp(36px, 5vw, 64px); line-height: 1.1; margin-bottom: 20px; }
     
@@ -41,77 +33,34 @@
       text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 12px;
     }
 
-    /* --- UTILITIES --- */
     .container { max-width: 1000px; margin: 0 auto; padding: 0 40px; }
-    .section-pad { padding: 80px 0; }
-    @media(max-width: 768px) { .container { padding: 0 24px; } }
-
-    .btn {
-      display: inline-block; background: #2C2926; color: white;
-      padding: 12px 28px; border-radius: 50px; text-decoration: none;
-      font-size: 12px; letter-spacing: 0.05em; transition: 0.3s;
-    }
+    .btn { display: inline-block; background: #2C2926; color: white; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-size: 12px; letter-spacing: 0.05em; transition: 0.3s; }
     .btn:hover { background: var(--accent); transform: translateY(-2px); }
 
-    /* --- NAVIGATION --- */
-    nav {
-      padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
-    }
+    nav { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
     .logo { font-family: var(--font-heading); font-size: 24px; font-weight: 600; letter-spacing: -0.02em; font-style: italic; }
     .nav-links { display: flex; gap: 40px; }
     .nav-links a { color: var(--text-main); text-decoration: none; font-size: 14px; }
-    @media(max-width: 768px) { .nav-links { display: none; } }
 
-    /* --- HERO --- */
     .team-hero { text-align: center; padding: 60px 0 80px; }
-
-    /* --- TEAM GRID --- */
-    .team-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
-    }
-    @media(max-width: 900px) { .team-grid { grid-template-columns: 1fr 1fr; } }
-    @media(max-width: 600px) { .team-grid { grid-template-columns: 1fr; } }
-
-    /* --- ARTIST CARD --- */
-    .artist-card {
-      text-align: center; display: flex; flex-direction: column; align-items: center;
-      margin-bottom: 40px; transition: 0.3s;
-    }
+    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    .artist-card { text-align: center; display: flex; flex-direction: column; align-items: center; margin-bottom: 40px; transition: 0.3s; }
     .artist-card:hover { transform: translateY(-5px); }
 
-    /* The "Arch" Frame Mini */
-    .img-arch {
-      width: 100%; aspect-ratio: 3/4; border-radius: 150px 150px 0 0; 
-      overflow: hidden; margin-bottom: 24px; position: relative;
-    }
-    .artist-img {
-      width: 100%; height: 100%; object-fit: cover; 
-      filter: grayscale(100%); transition: 0.5s ease;
-    }
+    .img-arch { width: 100%; aspect-ratio: 3/4; border-radius: 150px 150px 0 0; overflow: hidden; margin-bottom: 24px; position: relative; }
+    .artist-img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.5s ease; }
     .artist-card:hover .artist-img { filter: grayscale(0%); transform: scale(1.05); }
 
     .artist-name { font-size: 24px; margin-bottom: 4px; }
-    .artist-role { 
-      font-size: 11px; color: var(--accent); text-transform: uppercase; 
-      letter-spacing: 0.1em; display: block; margin-bottom: 20px;
-    }
+    .artist-role { font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 20px; }
 
-    .btn-outline {
-      border: 1px solid var(--text-muted); color: var(--text-main);
-      padding: 10px 24px; border-radius: 50px; font-size: 11px;
-      text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none;
-      transition: 0.2s; cursor: pointer;
-    }
+    .btn-outline { border: 1px solid var(--text-muted); color: var(--text-main); padding: 10px 24px; border-radius: 50px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; transition: 0.2s; cursor: pointer; }
     .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* --- JOIN US --- */
-    .join-cta {
-      background: var(--bg-alt); padding: 80px 0; text-align: center; margin-top: 40px;
-    }
-
-    /* --- FOOTER --- */
+    .join-cta { background: var(--bg-alt); padding: 80px 0; text-align: center; margin-top: 40px; }
     footer { padding: 60px 0 30px; text-align: center; color: var(--text-muted); font-size: 12px; }
-
+    @media(max-width: 900px) { .team-grid { grid-template-columns: 1fr 1fr; } }
+    @media(max-width: 600px) { .team-grid { grid-template-columns: 1fr; } .nav-links { display: none; } }
   </style>
 </head>
 <body>
@@ -122,35 +71,21 @@
       <a href="index.html">Home</a>
       <a href="services.html">Services</a>
       <a href="about.html">Our Story</a>
-      <a href="team.html" class="active">Team</a>
     </div>
     <a href="#book" class="btn" onclick="nsOpenBooking(); return false;">Book</a>
   </nav>
 
   <header class="container team-hero">
-    <span class="subtitle">The Collective</span>
-    <h1>Meet The Artisans.</h1>
-    <p style="font-size: 18px; font-weight: 300; max-width: 600px; margin: 20px auto 0; color: var(--text-muted);">
-      Each member of our team is a specialist in their craft, dedicated to 
-      sustainable beauty and holistic care.
-    </p>
+    <span class="subtitle" id="team_kicker">The Collective</span>
+    <h1 id="team_heading">Meet The Artisans.</h1>
+    <p id="team_text" style="font-size: 18px; font-weight: 300; max-width: 600px; margin: 20px auto 0; color: var(--text-muted);"></p>
   </header>
 
   <main class="container">
     <div class="team-grid" id="team_grid">
-      <div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:40px 0;">
-        Loading team...
-      </div>
+      <div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:40px 0;">Loading team...</div>
     </div>
   </main>
-
-  <div class="join-cta">
-    <div class="container">
-      <h2>Join The Haven.</h2>
-      <p style="margin-bottom: 30px;">We are always looking for like-minded artists to join our space.</p>
-      <a href="contact.html" class="btn-outline" style="border-color: var(--text-main);">Careers</a>
-    </div>
-  </div>
 
   <footer>
     <div class="container">
@@ -160,148 +95,81 @@
     </div>
   </footer>
 
-  <script src="/netstudio_booking.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
   <script>
-    lucide.createIcons();
-
-    function nsGetSlugFromHost() {
-      const qp = new URLSearchParams(location.search).get("b");
-      if (qp) return String(qp).trim().toLowerCase();
-
-      const host = (location.hostname || "").toLowerCase();
-      if (!host || host === "localhost" || host.startsWith("127.")) return null;
-
-      const ROOT = "netstudiodevelopment.com";
-      if (host === ROOT || host === "www." + ROOT) return null;
-
-      if (host.endsWith("." + ROOT)) {
-        const slug = host.slice(0, -(ROOT.length + 1)).split(".")[0];
-        return slug || null;
-      }
-      return null;
-    }
-
-    // ✅ PATCH: Bulletproof Booking Bridge
-    function nsOpenBooking(payload = {}) {
-      // 1. Try modern engine namespace
-      if (window.NetStudio && typeof window.NetStudio.open === "function") {
-        window.NetStudio.open(payload);
-        return;
-      }
-      // 2. Try legacy global
-      if (typeof window.openBooking === "function") {
-        window.openBooking(payload);
-        return;
-      }
-      console.warn("Booking engine not available yet");
-    }
-
-    // --- Supabase ---
     const SB_URL = "https://jdvdgvolfmvlgyfklbwe.supabase.co";
     const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkdmRndm9sZm12bGd5ZmtsYndlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1Mjk5MDgsImV4cCI6MjA3OTEwNTkwOH0.xiAOgWof9En3jbCpY1vrYpj3HD-O6jMHbamIHTSflek";
     const sb = supabase.createClient(SB_URL, SB_KEY);
 
-    const BUSINESS_SLUG = nsGetSlugFromHost();
-
-    async function nsApplyBrandName() {
-      if (!BUSINESS_SLUG) return;
-
-      // ✅ PATCH: Fetch Address Fields
-      const { data: biz } = await sb
-        .schema("public")
-        .from("business")
-        .select("name,id,street_address,city,state")
-        .eq("slug", BUSINESS_SLUG)
-        .maybeSingle();
-
-      if (!biz?.id) return;
-
-      // Header Brand
-      const brand = document.getElementById("ns_brand");
-      if (brand && biz.name) brand.textContent = biz.name;
-
-      // Footer Brand
-      const footerBrand = document.getElementById("ns_footer_brand");
-      if (footerBrand && biz.name) footerBrand.textContent = biz.name;
-
-      // ✅ PATCH: Bind Address
-      const addr = document.getElementById("ns_footer_address");
-      if (addr && biz.street_address) {
-        addr.textContent = [
-          biz.street_address,
-          biz.city,
-          biz.state
-        ].filter(Boolean).join(", ");
-      }
-
-      return biz;
+    function nsGetSlug() {
+      const q = new URLSearchParams(location.search).get("b");
+      if (q) return q.toLowerCase();
+      const h = location.hostname.toLowerCase();
+      const R = "netstudiodevelopment.com";
+      if (!h || h === "localhost" || h.startsWith("127.") || h === R || h === "www." + R) return null;
+      if (h.endsWith("." + R)) return h.slice(0, -(R.length + 1)).split(".")[0];
+      return null;
     }
 
-    function renderTeam(members) {
-      const grid = document.getElementById("team_grid");
-      if (!grid) return;
+    const SLUG = nsGetSlug();
 
-      grid.innerHTML = "";
-
-      if (!members.length) {
-        grid.innerHTML = `
-          <div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:40px 0;">
-            No active team members yet.
-          </div>
-        `;
-        return;
-      }
-
-      const fallbackImg =
-        "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600";
-
-      members.forEach(m => {
-        const id = String(m.id || "").trim();
-        const name = (m.name || "Team Member").trim();
-        const role = (m.role || "Staff").trim();
-        const img = (m.profile_image_url || m.photo_url || fallbackImg);
-
-        grid.insertAdjacentHTML("beforeend", `
-          <div class="artist-card">
-            <div class="img-arch">
-              <img src="${img}" class="artist-img" alt="${name}">
-            </div>
-            <h3 class="artist-name">${name}</h3>
-            <span class="artist-role">${role}</span>
-            <a href="#" class="btn-outline" onclick="nsOpenBooking({ staff_id: '${id}' }); return false;">Book</a>
-          </div>
-        `);
-      });
+    function nsOpenBooking(payload = {}) {
+      if (window.NetStudio?.open) return window.NetStudio.open(payload);
+      if (window.openBooking) return window.openBooking(payload);
+      console.warn("Booking engine loading...");
     }
 
-    async function loadTeam() {
-      if (!BUSINESS_SLUG) return;
+    async function loadHavenTeam() {
+      if (!SLUG) return;
 
-      const biz = await nsApplyBrandName();
-      if (!biz?.id) return;
+      const { data: biz } = await sb.from("business")
+        .select("id, name, street_address, city, state")
+        .eq("slug", SLUG).maybeSingle();
+      
+      if (!biz) return;
 
-      // ✅ RULE: only show ACTIVE + LOGGED-IN
-      const { data: members, error } = await sb
-        .schema("public")
-        .from("team_members")
-        .select("id,name,role,photo_url,profile_image_url,auth_user_id,is_active,created_at")
+      // Branding & Address
+      const bName = biz.name || "The Haven";
+      if(document.getElementById("ns_brand")) document.getElementById("ns_brand").textContent = bName;
+      if(document.getElementById("ns_footer_brand")) document.getElementById("ns_footer_brand").textContent = bName;
+      if(document.getElementById("ns_footer_address")) {
+        document.getElementById("ns_footer_address").textContent = [biz.street_address, biz.city, biz.state].filter(Boolean).join(", ");
+      }
+
+      // Hero Copy from Unified JSON
+      const { data: site } = await sb.from("business_sites")
+        .select("content_json")
+        .eq("business_id", biz.id)
+        .eq("template_key", "haven_v1").maybeSingle();
+
+      if (site?.content_json?.team) {
+        const t = site.content_json.team;
+        if(document.getElementById("team_kicker")) document.getElementById("team_kicker").textContent = t.kicker || "The Collective";
+        if(document.getElementById("team_heading")) document.getElementById("team_heading").textContent = t.heading || "Meet The Artisans.";
+        if(document.getElementById("team_text")) document.getElementById("team_text").textContent = t.text || "";
+      }
+
+      // Team Members
+      const { data: members } = await sb.from("team_members")
+        .select("id, name, role, profile_image_url, photo_url")
         .eq("business_id", biz.id)
         .eq("is_active", true)
-        .not("auth_user_id", "is", null)
-        .order("created_at", { ascending: true });
+        .not("auth_user_id", "is", null);
 
-      if (error) {
-        console.warn("team_members load error:", error);
-        renderTeam([]);
-        return;
-      }
-
-      renderTeam(members || []);
+      const grid = document.getElementById("team_grid");
+      grid.innerHTML = (members || []).map(m => `
+        <div class="artist-card">
+          <div class="img-arch">
+            <img src="${m.profile_image_url || m.photo_url || 'https://via.placeholder.com/600x800'}" class="artist-img">
+          </div>
+          <h3 class="artist-name">${m.name}</h3>
+          <span class="artist-role">${m.role}</span>
+          <a href="#" class="btn-outline" onclick="nsOpenBooking({ staff_id: '${m.id}' }); return false;">Book</a>
+        </div>
+      `).join("") || `<div style="grid-column:1/-1;text-align:center;padding:40px 0;">No active artisans yet.</div>`;
     }
 
-    loadTeam();
+    loadHavenTeam();
   </script>
 </body>
 </html>
