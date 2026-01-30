@@ -155,7 +155,7 @@
   <footer>
     <div class="container">
       <div id="ns_footer_brand" style="font-family: var(--font-heading); font-size: 24px; margin-bottom: 20px;">The Haven</div>
-      <p style="margin-bottom: 20px;">3510 Colley Ave, Norfolk, VA</p>
+      <p id="ns_footer_address" style="margin-bottom: 20px;"></p>
       <p>&copy; 2026 The Haven. Powered by Net Studio.</p>
     </div>
   </footer>
@@ -183,13 +183,19 @@
       return null;
     }
 
-    // PATCH 1B: Renamed Wrapper to avoid collision
-    function nsOpenBooking(payload) {
-      if (typeof window.openBooking === "function") {
-        window.openBooking(payload || {});
-      } else {
-        console.log("Booking engine not loaded yet");
+    // ✅ PATCH: Bulletproof Booking Bridge
+    function nsOpenBooking(payload = {}) {
+      // 1. Try modern engine namespace
+      if (window.NetStudio && typeof window.NetStudio.open === "function") {
+        window.NetStudio.open(payload);
+        return;
       }
+      // 2. Try legacy global
+      if (typeof window.openBooking === "function") {
+        window.openBooking(payload);
+        return;
+      }
+      console.warn("Booking engine not available yet");
     }
 
     // --- Supabase ---
@@ -202,22 +208,33 @@
     async function nsApplyBrandName() {
       if (!BUSINESS_SLUG) return;
 
+      // ✅ PATCH: Fetch Address Fields
       const { data: biz } = await sb
         .schema("public")
         .from("business")
-        .select("name,id")
+        .select("name,id,street_address,city,state")
         .eq("slug", BUSINESS_SLUG)
         .maybeSingle();
 
       if (!biz?.id) return;
 
-      // Top Logo
+      // Header Brand
       const brand = document.getElementById("ns_brand");
       if (brand && biz.name) brand.textContent = biz.name;
 
-      // PATCH 2B: Footer Logo
+      // Footer Brand
       const footerBrand = document.getElementById("ns_footer_brand");
       if (footerBrand && biz.name) footerBrand.textContent = biz.name;
+
+      // ✅ PATCH: Bind Address
+      const addr = document.getElementById("ns_footer_address");
+      if (addr && biz.street_address) {
+        addr.textContent = [
+          biz.street_address,
+          biz.city,
+          biz.state
+        ].filter(Boolean).join(", ");
+      }
 
       return biz;
     }
@@ -246,7 +263,6 @@
         const role = (m.role || "Staff").trim();
         const img = (m.profile_image_url || m.photo_url || fallbackImg);
 
-        // PATCH 1C: Card Buttons call nsOpenBooking
         grid.insertAdjacentHTML("beforeend", `
           <div class="artist-card">
             <div class="img-arch">
