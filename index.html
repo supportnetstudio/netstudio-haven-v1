@@ -2,221 +2,352 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MUSE — Editorial Hair Studio</title>
+  <title>The Haven — Organic Salon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
   <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    window.nsOpenBooking = window.nsOpenBooking || function(payload = {}) {
+      if (window.NetStudio && typeof window.NetStudio.open === "function") return window.NetStudio.open(payload);
+      if (typeof window.openBooking === "function") return window.openBooking(payload);
+      console.warn("Booking engine loading...");
+    };
+  </script>
+
   <style>
     /* --- CORE VARIABLES --- */
     :root {
-      --bg: #ffffff;
-      --text: #000000;
-      --accent: #2563eb; /* Electric Blue for subtle pop */
-      --gray: #f4f4f5;
-      --border: #e4e4e7;
-      --font-display: 'Oswald', sans-serif;
-      --font-body: 'Inter', sans-serif;
+      --bg-body: #FDFBF7; /* Soft Cream */
+      --bg-alt: #F3EFE7; /* Beige */
+      --text-main: #3D3A36; /* Dark Brown/Charcoal */
+      --text-muted: #8C8680;
+      --accent: #B08968; /* Terracotta/Sand */
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Lato', sans-serif;
     }
 
     /* --- RESET --- */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: var(--bg); color: var(--text);
-      font-family: var(--font-body); line-height: 1.5;
+      background: var(--bg-body);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.7;
       overflow-x: hidden;
     }
 
     /* --- TYPOGRAPHY --- */
-    h1, h2, h3 { font-family: var(--font-display); text-transform: uppercase; line-height: 0.9; }
-    h1 { font-size: clamp(60px, 15vw, 180px); font-weight: 700; letter-spacing: -0.02em; }
-    h2 { font-size: clamp(40px, 8vw, 80px); font-weight: 400; }
+    h1, h2, h3 { font-family: var(--font-heading); font-weight: 400; color: #2C2926; }
+    h1 { font-size: clamp(42px, 6vw, 72px); line-height: 1.1; margin-bottom: 24px; }
+    h2 { font-size: 36px; margin-bottom: 20px; }
     
     .subtitle {
-      font-size: 12px; font-weight: 600; text-transform: uppercase; 
-      letter-spacing: 0.2em; display: block; margin-bottom: 20px;
+      font-family: var(--font-body); font-size: 11px; letter-spacing: 0.2em; 
+      text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 16px;
     }
 
     /* --- UTILITIES --- */
-    .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      background: var(--text); color: var(--bg); padding: 16px 32px;
-      font-family: var(--font-body); font-weight: 600; text-transform: uppercase;
-      font-size: 12px; letter-spacing: 0.05em; text-decoration: none;
-      transition: 0.3s; border: 1px solid var(--text);
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+    .section-pad { padding: 80px 0; }
+    
+    /* Mobile Adjustment for Container */
+    @media(max-width: 768px) {
+      .container { padding: 0 20px; }
+      .section-pad { padding: 60px 0; }
     }
-    .btn:hover { background: transparent; color: var(--text); }
+    
+    .btn {
+      display: inline-block; background: #2C2926; color: white;
+      padding: 14px 32px; border-radius: 50px; text-decoration: none;
+      font-size: 13px; letter-spacing: 0.05em; transition: 0.3s;
+      cursor: pointer; border: none;
+    }
+    .btn:hover { background: var(--accent); transform: translateY(-2px); }
     
     .btn-outline {
-      background: transparent; color: var(--text); border: 1px solid var(--text);
-      padding: 16px 32px; font-weight: 600; text-transform: uppercase;
-      font-size: 12px; letter-spacing: 0.05em; text-decoration: none;
-      transition: 0.3s;
+      background: transparent; border: 1px solid #2C2926; color: #2C2926;
     }
-    .btn-outline:hover { background: var(--text); color: var(--bg); }
+    .btn-outline:hover { background: #2C2926; color: white; border-color: #2C2926; }
 
     /* --- NAVIGATION --- */
     nav {
-      position: fixed; top: 0; width: 100%; z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 24px; mix-blend-mode: difference; color: white;
+      padding: 30px 40px; display: flex; justify-content: space-between; align-items: center;
     }
-    .logo { font-family: var(--font-display); font-size: 32px; font-weight: 700; letter-spacing: -0.05em; }
-    .nav-links { display: flex; gap: 32px; }
-    .nav-links a { color: white; text-decoration: none; font-size: 14px; text-transform: uppercase; font-weight: 600; }
-    @media(max-width: 768px) { .nav-links { display: none; } }
+    .logo { font-family: var(--font-heading); font-size: 24px; font-weight: 600; letter-spacing: -0.02em; font-style: italic; }
+    .nav-links { display: flex; gap: 40px; }
+    .nav-links a { color: var(--text-main); text-decoration: none; font-size: 14px; }
+    
+    @media(max-width: 768px) { 
+      nav { padding: 20px; } /* Tighter padding on mobile */
+      .nav-links { display: none; } 
+    }
 
     /* --- HERO --- */
     .hero {
-      height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 40px 24px; position: relative; border-bottom: 1px solid var(--text);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+      min-height: 80vh; padding-bottom: 60px;
     }
-    .hero-bg {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-      object-fit: cover; filter: grayscale(100%) contrast(1.1);
+    .hero-img-wrap {
+      width: 100%; height: 80vh; border-radius: 200px 200px 0 0; overflow: hidden; position: relative;
     }
-    .hero-content {
-      position: relative; z-index: 2; mix-blend-mode: difference; color: white;
-    }
-
-    /* --- MARQUEE --- */
-    .marquee-wrap {
-      background: var(--text); color: var(--bg); padding: 16px 0; overflow: hidden; white-space: nowrap;
-    }
-    .marquee-content {
-      display: inline-block; animation: scroll 20s linear infinite;
-      font-family: var(--font-display); font-size: 24px; text-transform: uppercase;
-    }
-    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-    /* --- EDITORIAL GRID --- */
-    .grid-section { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--text); }
-    @media(max-width: 768px) { .grid-section { grid-template-columns: 1fr; } }
-
-    .grid-img {
-      width: 100%; height: 100%; object-fit: cover; border-right: 1px solid var(--text);
-      min-height: 600px; filter: grayscale(100%); transition: 0.5s;
-    }
-    .grid-img:hover { filter: grayscale(0%); }
+    .hero-img { width: 100%; height: 100%; object-fit: cover; }
     
-    .grid-content {
-      padding: 80px; display: flex; flex-direction: column; justify-content: center;
-    }
-    @media(max-width: 768px) { 
-        .grid-content { padding: 40px 24px; } 
-        .grid-img { border-right: none; border-bottom: 1px solid var(--text); height: 400px; min-height: auto; }
+    /* HERO BADGE (The Fix) */
+    .hero-badge {
+      position: absolute; bottom: 40px; background: white; padding: 24px;
+      border-radius: 0 12px 12px 0; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      left: -40px; /* Desktop Style */
     }
 
-    /* --- SERVICE LIST (Minimal) --- */
-    .service-row {
-      display: flex; justify-content: space-between; align-items: baseline;
-      padding: 24px 0; border-bottom: 1px solid #e5e5e5;
+    @media(max-width: 768px) { 
+      .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 20px; }
+      .hero-img-wrap { height: 450px; order: -1; border-radius: 12px; } /* Order -1 puts image on top */
+      
+      /* Mobile Badge Fix: Move inside the image area */
+      .hero-badge {
+        left: 0; bottom: 20px; border-radius: 0 12px 12px 0; padding: 16px 20px;
+      }
     }
-    .service-name { font-family: var(--font-display); font-size: 24px; text-transform: uppercase; }
-    .service-price { font-family: var(--font-body); font-weight: 600; }
+
+    /* --- SERVICES (Cards) --- */
+    .svc-scroll {
+      display: flex; gap: 20px; overflow-x: auto; padding-bottom: 40px;
+      padding-left: 20px; margin: 0 -20px; /* Bleed effect on mobile */
+      scrollbar-width: none;
+    }
+    .svc-scroll::-webkit-scrollbar { display: none; }
+    
+    .svc-card {
+      min-width: 280px; background: white; padding: 30px; border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.03); transition: 0.3s;
+      margin-top: 10px; /* Space for hover lift */
+    }
+    .svc-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,0.06); }
+
+    /* --- ABOUT SECTION --- */
+    .about-section { background: var(--bg-alt); border-radius: 24px; overflow: hidden; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .about-content { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+    .about-img { width: 100%; height: 100%; object-fit: cover; }
+    
+    @media(max-width: 768px) { 
+      .about-grid { grid-template-columns: 1fr; }
+      .about-content { padding: 40px 24px; }
+      .about-img { height: 250px; }
+    }
+
+    /* --- TESTIMONIAL --- */
+    .quote-box { text-align: center; max-width: 800px; margin: 0 auto; padding: 0 20px; }
+    .quote-text { font-family: var(--font-heading); font-size: 28px; font-style: italic; color: var(--accent); margin-bottom: 20px; }
+    @media(max-width: 768px) { .quote-text { font-size: 22px; } }
 
     /* --- FOOTER --- */
-    footer { padding: 80px 24px; background: var(--text); color: var(--bg); text-align: center; }
-    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 40px; }
-    .footer-links a { color: var(--bg); text-decoration: none; text-transform: uppercase; font-size: 12px; }
+    footer { padding: 80px 0 40px; text-align: center; color: var(--text-muted); font-size: 13px; }
 
   </style>
 </head>
 <body>
 
   <nav>
-    <div class="logo">MUSE.</div>
+    <div class="logo" id="nav_logo">The Haven</div>
     <div class="nav-links">
-      <a href="#">Work</a>
-      <a href="#">Studio</a>
-      <a href="#">Menu</a>
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">Our Story</a>
+      <a href="contact.html">Contact</a>
     </div>
-    <div style="font-weight: 600; text-transform: uppercase; font-size: 14px;">Book Now</div>
+    <a href="#book" class="btn" onclick="window.nsOpenBooking(); return false;" style="padding: 12px 24px;">Book</a>
   </nav>
 
-  <header class="hero">
-    <img src="https://images.unsplash.com/photo-1605980776566-0486c39d486c?auto=format&fit=crop&q=80&w=1600" class="hero-bg">
+  <header class="container hero">
+    <div class="hero-text">
+      <span class="subtitle">Welcome to The Haven</span>
+      <h1>Beauty, Rooted<br>In Nature.</h1>
+      <p style="color:var(--text-muted); margin-bottom: 40px; max-width: 450px;">
+        A sanctuary for hair and soul. We specialize in organic color, balayage, and restorative treatments designed to enhance your natural beauty.
+      </p>
+      <div style="display:flex; gap: 16px; flex-wrap: wrap;">
+        <a href="#book" class="btn" onclick="window.nsOpenBooking(); return false;">Book Now</a>
+        <a href="services.html" class="btn btn-outline">View Menu</a>
+      </div>
+    </div>
     
-    <div class="hero-content">
-      <div style="font-family: var(--font-body); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;">Norfolk, VA — Est 2024</div>
-      <h1>Define<br>Your Era.</h1>
+    <div class="hero-img-wrap">
+      <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&q=80&w=1200" class="hero-img">
+      <div class="hero-badge">
+        <div style="font-family: var(--font-heading); font-size: 32px;">4.9</div>
+        <div style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Average Rating</div>
+      </div>
     </div>
   </header>
 
-  <div class="marquee-wrap">
-    <div class="marquee-content">
-      &nbsp; • CUTS • COLOR • EXTENSIONS • STYLING • MUSE STUDIO • DEFINE YOUR ERA • CUTS • COLOR • EXTENSIONS • STYLING • MUSE STUDIO • DEFINE YOUR ERA
-    </div>
-  </div>
-
-  <section class="grid-section">
-    <div class="grid-content">
-      <span class="subtitle">The Vision</span>
-      <h2>Not Just Hair.<br>It's Identity.</h2>
-      <p style="max-width: 400px; margin-bottom: 40px; font-size: 18px; color: #444;">
-        We don't do "maintenance." We do transformations. Muse is a collective of artists specializing in modern shag, vivid color, and architectural cuts.
-      </p>
-      <a href="#book" class="btn">Book Appointment</a>
-    </div>
-    <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&q=80&w=800" class="grid-img">
-  </section>
-
-  <section class="container" style="padding: 100px 24px;">
-    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px;">
-      <h2>Menu</h2>
-      <a href="#" class="btn-outline">Full Price List</a>
+  <section class="container section-pad">
+    <div style="text-align: center; margin-bottom: 40px;">
+      <span class="subtitle">Our Expertise</span>
+      <h2>Curated Services</h2>
     </div>
 
-    <div class="service-row">
-      <span class="service-name">The Wolf Cut</span>
-      <span class="service-price">$85+</span>
-    </div>
-    <div class="service-row">
-      <span class="service-name">Full Balayage</span>
-      <span class="service-price">$240+</span>
-    </div>
-    <div class="service-row">
-      <span class="service-name">Bleach & Tone</span>
-      <span class="service-price">$200+</span>
-    </div>
-    <div class="service-row">
-      <span class="service-name">Vivid Color</span>
-      <span class="service-price">$120/hr</span>
+    <div class="svc-scroll" id="service_preview">
+      <div style="width:100%; text-align:center; padding:30px; color:#999;">Loading menu...</div>
     </div>
   </section>
 
-  <section class="grid-section">
-    <img src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?auto=format&fit=crop&q=80&w=800" class="grid-img">
-    <div class="grid-content">
-      <span class="subtitle">The Studio</span>
-      <h2>A Space For<br>Creatives.</h2>
-      <p style="max-width: 400px; margin-bottom: 40px; font-size: 18px; color: #444;">
-        Located in the Arts District. Industrial vibes, natural light, and good playlists. Come hang.
-      </p>
-      <div style="display:flex; gap: 16px;">
-        <a href="#team" class="btn-outline">The Artists</a>
-        <a href="#gallery" class="btn-outline">Lookbook</a>
+  <section class="container section-pad">
+    <div class="about-section">
+      <div class="about-grid">
+        <img src="https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?auto=format&fit=crop&q=80&w=1200" class="about-img">
+        <div class="about-content">
+          <span class="subtitle">The Philosophy</span>
+          <h2>Intention in Every Detail.</h2>
+          <p style="color:var(--text-muted); margin-bottom: 30px;">
+            We believe a salon visit should be a restoration, not a chore. 
+            From our eco-friendly products to our quiet-chair option, 
+            every detail is designed for your peace of mind.
+          </p>
+          <a href="about.html" style="color: var(--accent); text-decoration: none; font-weight: 700; font-size: 14px;">Read Our Story &rarr;</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <footer>
-    <h2 style="margin-bottom: 40px;">MUSE.</h2>
-    <div class="footer-links">
-      <a href="#">Instagram</a>
-      <a href="#">TikTok</a>
-      <a href="#">Contact</a>
+  <section class="container section-pad">
+    <div class="quote-box">
+      <div class="quote-text">"I have never felt more heard by a stylist. The color is perfect, but the experience was even better."</div>
+      <div style="font-size: 13px; font-weight: 700;">Sarah Jenkins</div>
+      <div style="font-size: 12px; color: var(--text-muted);">Client since 2021</div>
     </div>
-    <div style="font-size: 12px; color: #888;">© 2026 Muse Studio. Powered by Net Studio.</div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div id="footer_logo" style="font-family: var(--font-heading); font-size: 24px; margin-bottom: 20px;">The Haven</div>
+      <p id="ns_address" style="margin-bottom: 20px;"></p>
+      <p>&copy; 2026 The Haven. Powered by Net Studio.</p>
+    </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
   <script>
-    lucide.createIcons();
-    // Universal Booking Trigger
+    if (window.lucide) lucide.createIcons();
+
+    /* --- UTILS --- */
+    function nsGetSlug() {
+      const q = new URLSearchParams(location.search).get("b");
+      if (q) return q.toLowerCase();
+      const h = location.hostname.toLowerCase();
+      const R = "netstudiodevelopment.com";
+      if (!h || h === "localhost" || h.startsWith("127.") || h === R || h === "www." + R) return null;
+      if (h.endsWith("." + R)) return h.slice(0, -(R.length + 1)).split(".")[0];
+      return null;
+    }
+
+    // ✅ PATCH 2: Context Helper
+    function nsSetBusinessContext(businessId) {
+      if (!businessId) return;
+      window.NS_BUSINESS_ID = businessId;
+      document.documentElement.setAttribute("data-business-id", businessId);
+      if (document.body) document.body.setAttribute("data-business-id", businessId);
+      try {
+        localStorage.setItem("ns_business_id", businessId);
+        sessionStorage.setItem("ns_business_id", businessId);
+      } catch(e) {}
+      try {
+        const u = new URL(location.href);
+        if (!u.searchParams.get("business_id")) {
+          u.searchParams.set("business_id", businessId);
+          history.replaceState({}, "", u.toString());
+        }
+      } catch(e) {}
+    }
+
+    // ✅ PATCH 3: Dynamic Script Loader
+    function nsLoadBookingEngine() {
+      return new Promise((resolve) => {
+        if (window.openBooking || (window.NetStudio && typeof window.NetStudio.open === "function")) return resolve(true);
+        const s = document.createElement("script");
+        s.src = "/netstudio_booking.js";
+        s.async = true;
+        s.onload = () => resolve(true);
+        s.onerror = () => resolve(false);
+        document.body.appendChild(s);
+      });
+    }
+
+    /* --- DATA RENDERERS --- */
+    function renderServices(items) {
+      const scroll = document.getElementById("service_preview");
+      if(!scroll) return;
+      
+      // Fallback
+      if(!items || items.length === 0) {
+        items = [
+          { name: "Lived-In Color", price: "Starts at $220", description: "Seamless balayage and foil techniques." },
+          { name: "Texture & Form", price: "Starts at $95", description: "Precision cutting for all hair types." },
+          { name: "Scalp Therapy", price: "Starts at $85", description: "Japanese-style head spa treatments." }
+        ];
+      }
+
+      // Take Top 3
+      const subset = items.slice(0, 3);
+      
+      scroll.innerHTML = subset.map(s => `
+        <div class="svc-card">
+          <h3 style="font-size: 22px; margin-bottom: 10px;">${s.name}</h3>
+          <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">${s.description || "Custom service."}</p>
+          <span style="font-size: 12px; font-weight: 700; border-bottom: 1px solid black; padding-bottom: 4px;">${s.price || "See Menu"}</span>
+        </div>
+      `).join("");
+    }
+
+    /* --- MAIN LOAD --- */
+    const SB_URL = "https://jdvdgvolfmvlgyfklbwe.supabase.co";
+    const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkdmRndm9sZm12bGd5ZmtsYndlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1Mjk5MDgsImV4cCI6MjA3OTEwNTkwOH0.xiAOgWof9En3jbCpY1vrYpj3HD-O6jMHbamIHTSflek";
+    const sb = supabase.createClient(SB_URL, SB_KEY);
+    const SLUG = nsGetSlug();
+
+    async function loadHavenHome() {
+      if (!SLUG) return;
+
+      // 1. Business Info
+      const { data: biz } = await sb.from("business")
+        .select("id, name, street_address, city, state")
+        .eq("slug", SLUG).maybeSingle();
+      
+      if (!biz) return;
+
+      // ✅ PATCH 4: Context & Engine
+      nsSetBusinessContext(biz.id);
+      await nsLoadBookingEngine();
+
+      // Branding
+      if (biz.name) {
+        if(document.getElementById("nav_logo")) document.getElementById("nav_logo").textContent = biz.name;
+        if(document.getElementById("footer_logo")) document.getElementById("footer_logo").textContent = biz.name;
+      }
+
+      // Address
+      const addrEl = document.getElementById("ns_address");
+      if (addrEl && biz.street_address) {
+        addrEl.textContent = [biz.street_address, biz.city, biz.state].filter(Boolean).join(", ");
+      }
+
+      // 2. Fetch Top 3 Services
+      const { data: menuItems } = await sb.from("menu_items")
+        .select("name, price, description")
+        .eq("business_id", biz.id)
+        .eq("is_active", true)
+        .limit(3);
+
+      renderServices(menuItems || []);
+    }
+
+    loadHavenHome();
   </script>
 </body>
 </html>
