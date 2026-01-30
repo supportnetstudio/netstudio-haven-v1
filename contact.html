@@ -2,202 +2,358 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MUSE — Contact</title>
+  <title>The Haven — Contact</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
   <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    window.nsOpenBooking = window.nsOpenBooking || function(payload = {}) {
+      if (window.NetStudio && typeof window.NetStudio.open === "function") return window.NetStudio.open(payload);
+      if (typeof window.openBooking === "function") return window.openBooking(payload);
+      console.warn("Booking engine loading...");
+    };
+  </script>
+
   <style>
     /* --- CORE VARIABLES --- */
     :root {
-      --bg: #ffffff;
-      --text: #000000;
-      --accent: #2563eb;
-      --border: #000000;
-      --font-display: 'Oswald', sans-serif;
-      --font-body: 'Inter', sans-serif;
+      --bg-body: #FDFBF7; 
+      --bg-alt: #F3EFE7; 
+      --text-main: #3D3A36; 
+      --text-muted: #8C8680;
+      --accent: #B08968; 
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Lato', sans-serif;
     }
 
     /* --- RESET --- */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: var(--bg); color: var(--text);
-      font-family: var(--font-body); line-height: 1.5;
+      background: var(--bg-body);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
       overflow-x: hidden;
     }
 
     /* --- TYPOGRAPHY --- */
-    h1, h2, h3 { font-family: var(--font-display); text-transform: uppercase; line-height: 0.9; }
-    h1 { font-size: clamp(60px, 12vw, 150px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 40px; }
+    h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 400; color: #2C2926; }
+    h1 { font-size: clamp(42px, 5vw, 64px); line-height: 1.1; margin-bottom: 20px; }
+    h2 { font-size: 32px; margin-bottom: 20px; }
     
-    .label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase; 
-      letter-spacing: 0.1em; border: 1px solid var(--text); 
-      padding: 6px 12px; display: inline-block; margin-bottom: 24px;
+    .subtitle {
+      font-family: var(--font-body); font-size: 11px; letter-spacing: 0.2em; 
+      text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 12px;
     }
 
     /* --- UTILITIES --- */
-    .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 40px; }
+    .section-pad { padding: 80px 0; }
+    
+    @media(max-width: 768px) {
+      .container { padding: 0 24px; }
+      .section-pad { padding: 60px 0; }
+    }
     
     .btn {
-      display: inline-block; background: var(--text); color: var(--bg);
-      padding: 18px 40px; font-family: var(--font-body); font-weight: 600; 
-      text-transform: uppercase; font-size: 12px; letter-spacing: 0.1em; 
-      text-decoration: none; transition: 0.3s; width: 100%; text-align: center;
-      border: 1px solid var(--text); cursor: pointer;
+      display: inline-block; background: #2C2926; color: white;
+      padding: 14px 32px; border-radius: 50px; text-decoration: none;
+      font-size: 13px; letter-spacing: 0.05em; transition: 0.3s; border: none; cursor: pointer;
     }
-    .btn:hover { background: var(--accent); border-color: var(--accent); color: white; }
+    .btn:hover { background: var(--accent); transform: translateY(-2px); }
 
     /* --- NAVIGATION --- */
     nav {
-      position: fixed; top: 0; width: 100%; z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 24px; mix-blend-mode: difference; color: white;
+      padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
     }
-    .logo { font-family: var(--font-display); font-size: 32px; font-weight: 700; letter-spacing: -0.05em; }
-    .nav-links { display: flex; gap: 32px; }
-    .nav-links a { color: white; text-decoration: none; font-size: 14px; text-transform: uppercase; font-weight: 600; }
-    @media(max-width: 768px) { .nav-links { display: none; } }
+    .logo { font-family: var(--font-heading); font-size: 24px; font-weight: 600; letter-spacing: -0.02em; font-style: italic; }
+    .nav-links { display: flex; gap: 40px; }
+    .nav-links a { color: var(--text-main); text-decoration: none; font-size: 14px; }
+    
+    @media(max-width: 768px) { 
+        nav { padding: 15px 20px; }
+        .nav-links { display: none; } 
+    }
 
     /* --- HERO --- */
-    .contact-hero {
-      padding: 160px 24px 60px; border-bottom: 1px solid var(--border);
-    }
+    .contact-hero { text-align: center; padding: 60px 0 80px; border-bottom: 1px solid rgba(0,0,0,0.05); }
 
-    /* --- SPLIT LAYOUT --- */
-    .contact-split {
-      display: grid; grid-template-columns: 1fr 1fr;
-      min-height: 80vh; border-bottom: 1px solid var(--border);
+    /* --- CONTACT GRID --- */
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 80px;
     }
-    @media(max-width: 900px) { .contact-split { grid-template-columns: 1fr; } }
+    @media(max-width: 768px) { .contact-grid { grid-template-columns: 1fr; gap: 60px; margin-top: 40px; } }
 
-    /* --- INFO SIDE --- */
-    .info-side {
-      padding: 80px 40px; border-right: 1px solid var(--border);
-      display: flex; flex-direction: column; justify-content: space-between;
+    /* --- INFO COLUMN --- */
+    .info-item { margin-bottom: 40px; }
+    .info-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; display: block; }
+    .info-text { font-size: 16px; color: var(--text-main); line-height: 1.8; }
+    
+    /* --- FORM COLUMN --- */
+    .form-group { margin-bottom: 24px; }
+    .form-input, .form-textarea {
+      width: 100%; background: var(--bg-alt); border: 1px solid transparent;
+      padding: 16px 20px; border-radius: 8px; font-family: var(--font-body);
+      font-size: 14px; color: var(--text-main); outline: none; transition: 0.3s;
     }
-    @media(max-width: 900px) { 
-      .info-side { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 24px; } 
-    }
+    .form-input:focus, .form-textarea:focus { background: white; border-color: var(--accent); box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
 
-    .data-block { margin-bottom: 60px; }
-    .data-label { 
-      font-family: var(--font-body); font-size: 10px; font-weight: 700; 
-      text-transform: uppercase; color: #666; margin-bottom: 8px; display: block;
+    /* --- MAP SECTION --- */
+    .map-section { margin-top: 80px; }
+    .map-frame {
+      width: 100%; height: 450px; background: #eee; border-radius: 12px;
+      overflow: hidden; filter: sepia(20%) opacity(0.9); border: 1px solid rgba(0,0,0,0.05);
     }
-    .data-value {
-      font-family: var(--font-display); font-size: 32px; text-transform: uppercase;
-    }
-    .data-small { font-size: 16px; font-family: var(--font-body); }
-
-    /* --- FORM SIDE --- */
-    .form-side { padding: 80px 40px; background: #f4f4f5; }
-    @media(max-width: 900px) { .form-side { padding: 40px 24px; } }
-
-    .input-group { margin-bottom: 24px; position: relative; }
-    .input-field {
-      width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--text);
-      padding: 16px 0; font-family: var(--font-display); font-size: 24px; 
-      color: var(--text); outline: none; transition: 0.3s;
-      text-transform: uppercase;
-    }
-    .input-field::placeholder { color: #aaa; opacity: 1; }
-    .input-field:focus { border-bottom-color: var(--accent); color: var(--accent); }
 
     /* --- FOOTER --- */
-    footer { padding: 80px 24px; background: var(--text); color: var(--bg); text-align: center; }
-    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 40px; }
-    .footer-links a { color: var(--bg); text-decoration: none; text-transform: uppercase; font-size: 12px; }
+    footer { padding: 80px 0 40px; text-align: center; color: var(--text-muted); font-size: 12px; }
 
   </style>
 </head>
 <body>
 
   <nav>
-    <div class="logo">MUSE.</div>
+    <div class="logo" id="nav_logo">The Haven</div>
     <div class="nav-links">
       <a href="index.html">Home</a>
-      <a href="about.html">Manifesto</a>
-      <a href="services.html">Menu</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">Our Story</a>
       <a href="contact.html" class="active">Contact</a>
     </div>
-    <div style="font-weight: 600; text-transform: uppercase; font-size: 14px;">Book Now</div>
+    <a href="#book" class="btn" onclick="window.nsOpenBooking(); return false;">Book</a>
   </nav>
 
-  <header class="contact-hero">
-    <div class="label">Inquiries</div>
-    <h1>Get In Touch.</h1>
+  <header class="container contact-hero">
+    <span class="subtitle">Get In Touch</span>
+    <h1>Visit The Sanctuary</h1>
+    <p style="color:var(--text-muted); max-width:500px; margin:0 auto;">
+      We look forward to welcoming you. For questions about services or consultations, please reach out.
+    </p>
   </header>
 
-  <div class="contact-split">
+  <main class="container">
     
-    <div class="info-side">
+    <div class="contact-grid">
+      
       <div>
-        <div class="data-block">
-          <span class="data-label">Coordinates</span>
-          <div class="data-value">3904 Bainbridge Blvd</div>
-          <div class="data-small">Chesapeake, VA 23324</div>
-        </div>
-
-        <div class="data-block">
-          <span class="data-label">Direct Line</span>
-          <div class="data-value">(757) 543-2966</div>
-        </div>
-
-        <div class="data-block">
-          <span class="data-label">Press / Collabs</span>
-          <div class="data-value" style="font-size: 24px;">studio@musenorfolk.com</div>
-        </div>
-      </div>
-
-      <div class="data-block" style="margin-bottom: 0;">
-        <span class="data-label">Operating Hours</span>
-        <div class="data-small" style="font-weight: 600; text-transform: uppercase;">
-          TUE — SAT / 10AM — 8PM<br>
-          SUN — MON / CLOSED
-        </div>
-      </div>
-    </div>
-
-    <div class="form-side">
-      <h2 style="margin-bottom: 40px; font-size: 40px;">Intake Form</h2>
-      <form>
-        <div class="input-group">
-          <input type="text" class="input-field" placeholder="Full Name">
-        </div>
-        <div class="input-group">
-          <input type="email" class="input-field" placeholder="Email Address">
-        </div>
-        <div class="input-group">
-          <input type="text" class="input-field" placeholder="Subject">
-        </div>
-        <div class="input-group">
-          <input type="text" class="input-field" placeholder="Message">
-        </div>
+        <h2 style="margin-bottom: 30px;">Find Us</h2>
         
-        <div style="margin-top: 60px;">
-          <button class="btn">Transmit Data</button>
+        <div class="info-item">
+          <span class="info-label">Address</span>
+          <div class="info-text" id="contact_address">
+            Loading...
+          </div>
         </div>
-      </form>
+
+        <div class="info-item">
+          <span class="info-label">Hours</span>
+          <div class="info-text" id="contact_hours">
+            Loading...
+          </div>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">Contact</span>
+          <div class="info-text">
+            <div id="contact_phone">—</div>
+            <div id="contact_email">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 style="margin-bottom: 30px;">Send a Message</h2>
+        <form id="contact_form">
+          <div class="form-group">
+            <input type="text" id="frm_name" class="form-input" placeholder="Your Name" required>
+          </div>
+          <div class="form-group">
+            <input type="email" id="frm_email" class="form-input" placeholder="Email Address" required>
+          </div>
+          <div class="form-group">
+            <textarea id="frm_msg" class="form-textarea" rows="5" placeholder="How can we help?" required></textarea>
+          </div>
+          <button type="submit" class="btn">Send Message</button>
+        </form>
+      </div>
+
     </div>
 
-  </div>
+    <div class="map-section">
+      <iframe id="map_frame" class="map-frame" src=""></iframe>
+    </div>
+
+  </main>
 
   <footer>
-    <h2 style="margin-bottom: 40px;">MUSE.</h2>
-    <div class="footer-links">
-      <a href="#">Instagram</a>
-      <a href="#">TikTok</a>
-      <a href="#">Contact</a>
+    <div class="container">
+      <div id="footer_logo" style="font-family: var(--font-heading); font-size: 24px; margin-bottom: 20px;">The Haven</div>
+      <p id="ns_address" style="margin-bottom: 20px;"></p>
+      <p>&copy; 2026 The Haven. Powered by Net Studio.</p>
     </div>
-    <div style="font-size: 12px; color: #888;">© 2026 Muse Studio. Powered by Net Studio.</div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
   <script>
-    lucide.createIcons();
+    if (window.lucide) lucide.createIcons();
+
+    /* --- UTILS --- */
+    function nsGetSlug() {
+      const q = new URLSearchParams(location.search).get("b");
+      if (q) return q.toLowerCase();
+      const h = location.hostname.toLowerCase();
+      const R = "netstudiodevelopment.com";
+      if (!h || h === "localhost" || h.startsWith("127.") || h === R || h === "www." + R) return null;
+      if (h.endsWith("." + R)) return h.slice(0, -(R.length + 1)).split(".")[0];
+      return null;
+    }
+
+    // ✅ PATCH 2: Context Helper
+    function nsSetBusinessContext(businessId) {
+      if (!businessId) return;
+      window.NS_BUSINESS_ID = businessId;
+      document.documentElement.setAttribute("data-business-id", businessId);
+      if (document.body) document.body.setAttribute("data-business-id", businessId);
+      try {
+        localStorage.setItem("ns_business_id", businessId);
+        sessionStorage.setItem("ns_business_id", businessId);
+      } catch(e) {}
+      try {
+        const u = new URL(location.href);
+        if (!u.searchParams.get("business_id")) {
+          u.searchParams.set("business_id", businessId);
+          history.replaceState({}, "", u.toString());
+        }
+      } catch(e) {}
+    }
+
+    // ✅ PATCH 3: Dynamic Script Loader
+    function nsLoadBookingEngine() {
+      return new Promise((resolve) => {
+        if (window.openBooking || (window.NetStudio && typeof window.NetStudio.open === "function")) return resolve(true);
+        const s = document.createElement("script");
+        s.src = "/netstudio_booking.js";
+        s.async = true;
+        s.onload = () => resolve(true);
+        s.onerror = () => resolve(false);
+        document.body.appendChild(s);
+      });
+    }
+
+    /* --- FORMATTERS --- */
+    function formatTime(t) {
+      if(!t) return "";
+      const [h, m] = t.split(":");
+      const H = parseInt(h);
+      const ampm = H >= 12 ? "PM" : "AM";
+      const H12 = H % 12 || 12;
+      return `${H12}:${m} ${ampm}`;
+    }
+
+    // Sorter for text days
+    const SORTER = { "sunday":0, "monday":1, "tuesday":2, "wednesday":3, "thursday":4, "friday":5, "saturday":6 };
+    const DAYS = { "sunday":"Sun", "monday":"Mon", "tuesday":"Tue", "wednesday":"Wed", "thursday":"Thu", "friday":"Fri", "saturday":"Sat" };
+
+    /* --- DATA LOAD --- */
+    const SB_URL = "https://jdvdgvolfmvlgyfklbwe.supabase.co";
+    const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkdmRndm9sZm12bGd5ZmtsYndlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1Mjk5MDgsImV4cCI6MjA3OTEwNTkwOH0.xiAOgWof9En3jbCpY1vrYpj3HD-O6jMHbamIHTSflek";
+    const sb = supabase.createClient(SB_URL, SB_KEY);
+    const SLUG = nsGetSlug();
+
+    let businessEmail = ""; 
+
+    async function loadHavenContact() {
+      if (!SLUG) return;
+
+      // 1. Business Info
+      const { data: biz } = await sb.from("business")
+        .select("id, name, street_address, city, state, phone, owner_email")
+        .eq("slug", SLUG).maybeSingle();
+      
+      if (!biz) return;
+
+      // ✅ PATCH 4: Context & Engine
+      nsSetBusinessContext(biz.id);
+      await nsLoadBookingEngine();
+
+      // Branding
+      if (biz.name) {
+        if(document.getElementById("nav_logo")) document.getElementById("nav_logo").textContent = biz.name;
+        if(document.getElementById("footer_logo")) document.getElementById("footer_logo").textContent = biz.name;
+      }
+
+      // Address & Phone
+      const address = (biz.street_address && biz.city) 
+        ? `${biz.street_address}, ${biz.city}, ${biz.state}`
+        : "Address Loading...";
+      
+      if(document.getElementById("contact_address")) {
+        document.getElementById("contact_address").innerHTML = address.replace(",", "<br>");
+      }
+      if(document.getElementById("ns_address")) {
+        document.getElementById("ns_address").textContent = address;
+      }
+      if(document.getElementById("contact_phone")) {
+        document.getElementById("contact_phone").textContent = biz.phone || "—";
+      }
+
+      // Map Embed (Google Maps)
+      if (address !== "Address Loading...") {
+        const q = encodeURIComponent(address);
+        document.getElementById("map_frame").src = `http://googleusercontent.com/maps.google.com/maps?q=${q}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+      }
+
+      // Email Store
+      businessEmail = biz.owner_email || "";
+      if(document.getElementById("contact_email")) document.getElementById("contact_email").textContent = businessEmail;
+
+      // 2. Fetch Hours
+      const { data: hours } = await sb.from("business_hours")
+        .select("day_of_week, open_time, close_time, is_closed")
+        .eq("business_id", biz.id);
+
+      const hoursEl = document.getElementById("contact_hours");
+      if (hours && hours.length > 0) {
+        // Sort
+        hours.sort((a, b) => SORTER[a.day_of_week] - SORTER[b.day_of_week]);
+
+        let html = "";
+        hours.forEach(h => {
+          const dayName = DAYS[h.day_of_week];
+          const timeStr = h.is_closed 
+            ? "Closed" 
+            : `${formatTime(h.open_time)} — ${formatTime(h.close_time)}`;
+          
+          html += `${dayName}: ${timeStr}<br>`;
+        });
+        hoursEl.innerHTML = html;
+      } else {
+        hoursEl.textContent = "Hours available upon request.";
+      }
+    }
+
+    /* --- FORM HANDLER --- */
+    document.getElementById("contact_form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      if (!businessEmail) {
+        alert("No contact email found.");
+        return;
+      }
+      const name = document.querySelector("#contact_form input[type='text']").value;
+      const email = document.querySelector("#contact_form input[type='email']").value;
+      const msg = document.querySelector("#contact_form textarea").value;
+
+      const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0A${msg}`;
+      window.location.href = `mailto:${businessEmail}?subject=New Inquiry&body=${body}`;
+    });
+
+    loadHavenContact();
   </script>
 </body>
 </html>
