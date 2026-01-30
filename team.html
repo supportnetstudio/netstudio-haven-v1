@@ -124,7 +124,7 @@
       <a href="about.html">Our Story</a>
       <a href="team.html" class="active">Team</a>
     </div>
-    <a href="#book" class="btn" onclick="openBooking()">Book</a>
+    <a href="#book" class="btn" onclick="nsOpenBooking(); return false;">Book</a>
   </nav>
 
   <header class="container team-hero">
@@ -154,15 +154,15 @@
 
   <footer>
     <div class="container">
-      <div style="font-family: var(--font-heading); font-size: 24px; margin-bottom: 20px;">The Haven</div>
+      <div id="ns_footer_brand" style="font-family: var(--font-heading); font-size: 24px; margin-bottom: 20px;">The Haven</div>
       <p style="margin-bottom: 20px;">3510 Colley Ave, Norfolk, VA</p>
       <p>&copy; 2026 The Haven. Powered by Net Studio.</p>
     </div>
   </footer>
 
   <script src="/netstudio_booking.js"></script>
-  
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
   <script>
     lucide.createIcons();
 
@@ -183,8 +183,8 @@
       return null;
     }
 
-    // ✅ Universal booking entry (root script)
-    function openBooking(payload) {
+    // PATCH 1B: Renamed Wrapper to avoid collision
+    function nsOpenBooking(payload) {
       if (typeof window.openBooking === "function") {
         window.openBooking(payload || {});
       } else {
@@ -211,8 +211,13 @@
 
       if (!biz?.id) return;
 
+      // Top Logo
       const brand = document.getElementById("ns_brand");
       if (brand && biz.name) brand.textContent = biz.name;
+
+      // PATCH 2B: Footer Logo
+      const footerBrand = document.getElementById("ns_footer_brand");
+      if (footerBrand && biz.name) footerBrand.textContent = biz.name;
 
       return biz;
     }
@@ -241,6 +246,7 @@
         const role = (m.role || "Staff").trim();
         const img = (m.profile_image_url || m.photo_url || fallbackImg);
 
+        // PATCH 1C: Card Buttons call nsOpenBooking
         grid.insertAdjacentHTML("beforeend", `
           <div class="artist-card">
             <div class="img-arch">
@@ -248,7 +254,7 @@
             </div>
             <h3 class="artist-name">${name}</h3>
             <span class="artist-role">${role}</span>
-            <a href="#" class="btn-outline" onclick="openBooking({ staff_id: '${id}' }); return false;">Book</a>
+            <a href="#" class="btn-outline" onclick="nsOpenBooking({ staff_id: '${id}' }); return false;">Book</a>
           </div>
         `);
       });
