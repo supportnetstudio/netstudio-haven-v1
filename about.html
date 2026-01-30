@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>The Haven — Our Story</title>
+  <title>About — Powered by Net Studio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,6 @@
   <script>
     window.nsOpenBooking = window.nsOpenBooking || function(payload = {}) {
       if (window.NetStudio && typeof window.NetStudio.open === "function") return window.NetStudio.open(payload);
-      if (typeof window.openBooking === "function") return window.openBooking(payload);
       console.warn("Booking engine loading...");
     };
   </script>
@@ -70,32 +69,22 @@
     .btn:hover { background: var(--accent); transform: translateY(-2px); }
 
     /* --- NAVIGATION --- */
-    nav {
-      padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
-    }
+    nav { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
     .logo { font-family: var(--font-heading); font-size: 24px; font-weight: 600; letter-spacing: -0.02em; font-style: italic; }
     .nav-links { display: flex; gap: 40px; }
     .nav-links a { color: var(--text-main); text-decoration: none; font-size: 14px; }
     
-    @media(max-width: 768px) { 
-        nav { padding: 15px 20px; }
-        .nav-links { display: none; } 
-    }
+    @media(max-width: 768px) { nav { padding: 15px 20px; } .nav-links { display: none; } }
 
     /* --- STORY HERO --- */
     .story-hero { text-align: center; padding: 60px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
 
     /* --- SPLIT LAYOUT --- */
-    .split-section {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
-      margin-top: 60px;
-    }
+    .split-section { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 60px; }
     .split-reverse { direction: rtl; }
     .split-reverse > * { direction: ltr; }
     
-    .img-frame {
-      width: 100%; aspect-ratio: 3/4; border-radius: 200px 200px 0 0; overflow: hidden;
-    }
+    .img-frame { width: 100%; aspect-ratio: 3/4; border-radius: 200px 200px 0 0; overflow: hidden; }
     .img-frame img { width: 100%; height: 100%; object-fit: cover; }
     
     @media(max-width: 768px) {
@@ -107,290 +96,215 @@
     /* --- VALUES GRID --- */
     .values-bg { background: var(--bg-alt); padding: 80px 0; margin-top: 80px; }
     .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; text-align: center; }
-    @media(max-width: 768px) { 
-        .values-bg { padding: 50px 0; margin-top: 50px; }
-        .values-grid { grid-template-columns: 1fr; gap: 30px; } 
-    }
+    @media(max-width: 768px) { .values-grid { grid-template-columns: 1fr; gap: 30px; } }
 
-    /* --- TEAM (UPDATED WITH BUTTONS) --- */
-    .team-grid { 
-        display: grid; 
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
-        gap: 40px; margin-top: 40px; 
-    }
+    /* --- TEAM --- */
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 40px; margin-top: 40px; }
     .team-card { text-align: center; display: flex; flex-direction: column; align-items: center; }
-    
-    .team-img-wrap {
-      width: 140px; height: 140px; border-radius: 50%; overflow: hidden; margin-bottom: 15px;
-      border: 1px solid rgba(0,0,0,0.05);
-    }
-    .team-img { 
-        width: 100%; height: 100%; object-fit: cover; 
-        filter: grayscale(100%); transition: 0.4s;
-    }
+    .team-img-wrap { width: 140px; height: 140px; border-radius: 50%; overflow: hidden; margin-bottom: 15px; border: 1px solid rgba(0,0,0,0.05); }
+    .team-img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.4s; }
     .team-card:hover .team-img { filter: grayscale(0%); }
-    
     .team-role { font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; display: block; margin-bottom: 16px; }
 
-    /* ACTION BUTTONS */
-    .action-row {
-      display: flex; gap: 8px; justify-content: center; width: 100%;
-    }
-    .btn-sm {
-      background: #2C2926; color: white; border: 1px solid #2C2926;
-      padding: 8px 16px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em;
-      border-radius: 50px; cursor: pointer; transition: 0.2s;
-    }
-    .btn-outline-sm {
-      background: transparent; color: #2C2926; border: 1px solid #2C2926;
-      padding: 8px 16px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em;
-      border-radius: 50px; cursor: pointer; transition: 0.2s;
-    }
+    .action-row { display: flex; gap: 8px; justify-content: center; width: 100%; }
+    .btn-sm { background: #2C2926; color: white; border: 1px solid #2C2926; padding: 8px 16px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; border-radius: 50px; cursor: pointer; transition: 0.2s; }
+    .btn-outline-sm { background: transparent; color: #2C2926; border: 1px solid #2C2926; padding: 8px 16px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; border-radius: 50px; cursor: pointer; transition: 0.2s; }
     .btn-sm:hover { background: var(--accent); border-color: var(--accent); }
     .btn-outline-sm:hover { border-color: var(--accent); color: var(--accent); }
 
-    @media(max-width: 768px) {
-        .team-grid { grid-template-columns: 1fr 1fr; gap: 20px; padding: 0 10px; }
-        .team-img-wrap { width: 100px; height: 100px; }
-        .team-card h3 { font-size: 15px; margin-bottom: 2px; }
-        .team-role { font-size: 9px; margin-bottom: 12px; }
-        .action-row { flex-direction: column; gap: 6px; width: 100%; } 
-        .btn-sm, .btn-outline-sm { width: 100%; }
-    }
-
-    /* --- FOOTER --- */
-    footer { padding: 60px 0 30px; text-align: center; color: var(--text-muted); font-size: 12px; }
-
+    footer { padding: 60px 0 30px; text-align: center; color: var(--text-muted); font-size: 12px; border-top: 1px solid #eee; }
+    #site-error { display: none; text-align: center; padding: 100px 20px; color: #666; font-size: 14px;}
   </style>
 </head>
-<body>
+<body id="about">
 
-  <nav>
-    <div class="logo" id="nav_logo">The Haven</div>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="about.html" class="active">Our Story</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <a href="#book" class="btn" onclick="window.nsOpenBooking(); return false;">Book</a>
-  </nav>
+  <div id="site-error"><h2>404</h2><p>Business not found.</p></div>
 
-  <header class="container story-hero">
-    <span class="subtitle">Est. 2021</span>
-    <h1>A Sanctuary for <br>Self-Care.</h1>
-    <p class="lead-text" id="bio_text">
-      The Haven was born from a desire to slow down. In a world that rushes, 
-      we created a space where beauty is a ritual, not a race.
-    </p>
-  </header>
-
-  <main class="container">
-    
-    <div class="split-section">
-      <div class="img-frame">
-        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80&w=800" alt="Salon Interior">
+  <div id="main-content" style="opacity: 0; transition: opacity 0.5s ease;">
+    <nav>
+      <div class="logo" id="nav_logo">The Haven</div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="about.html" class="active">Our Story</a>
+        <a href="contact.html">Contact</a>
       </div>
-      <div>
-        <span class="subtitle">The Vision</span>
-        <h2>Holistic Beauty</h2>
-        <p style="color:var(--text-muted); margin-bottom: 20px;">
-          We believe that healthy hair starts with a healthy environment. That implies 
-          using organic, low-toxin color lines and sustainable products that nourish 
-          rather than strip.
-        </p>
-        <p style="color:var(--text-muted);">
-          Our studio is designed as a calm respite—neutral tones, natural light, 
-          and quiet corners. It is a place to exhale.
-        </p>
-      </div>
-    </div>
+      <a href="#book" class="btn" onclick="nsOpenBooking(); return false;">Book</a>
+    </nav>
 
-    <div class="split-section split-reverse">
-      <div class="img-frame" style="border-radius: 0 0 200px 200px;">
-        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800" alt="Hair Texture">
-      </div>
-      <div>
-        <span class="subtitle">The Craft</span>
-        <h2>Artistry & Patience</h2>
-        <p style="color:var(--text-muted); margin-bottom: 20px;">
-          Great color takes time. Our stylists are trained in "Lived-In" techniques 
-          that allow your hair to grow out seamlessly, extending the life of your color 
-          and maintaining the integrity of your strands.
-        </p>
-        <p style="color:var(--text-muted);">
-          We don't double book. When you are in our chair, you have our undivided attention.
-        </p>
-      </div>
-    </div>
+    <header class="container story-hero">
+      <span id="hero_kicker" class="subtitle"></span>
+      <h1 id="hero_headline"></h1>
+      <p id="hero_body" class="lead-text"></p>
+    </header>
 
-  </main>
-
-  <div class="values-bg">
-    <div class="container">
-      <div class="values-grid">
-        <div>
-          <h3 style="font-size: 22px; margin-bottom: 12px;">Organic First</h3>
-          <p style="font-size: 13px; color: var(--text-muted);">
-            We prioritize ammonia-free color and cruelty-free products.
-          </p>
+    <main class="container">
+      <div class="split-section">
+        <div class="img-frame">
+          <img id="story_img" src="" alt="The Vision">
         </div>
         <div>
-          <h3 style="font-size: 22px; margin-bottom: 12px;">Inclusive Space</h3>
-          <p style="font-size: 13px; color: var(--text-muted);">
-            All textures, all backgrounds, all people are celebrated here.
-          </p>
-        </div>
-        <div>
-          <h3 style="font-size: 22px; margin-bottom: 12px;">Transparent Pricing</h3>
-          <p style="font-size: 13px; color: var(--text-muted);">
-            No surprise add-ons. Our session-based pricing is clear.
-          </p>
+          <span id="story_kicker" class="subtitle"></span>
+          <h2 id="story_title"></h2>
+          <p id="story_p1" style="color:var(--text-muted); margin-bottom: 20px;"></p>
+          <p id="story_p2" style="color:var(--text-muted);"></p>
         </div>
       </div>
+
+      <div class="split-section split-reverse">
+        <div class="img-frame" style="border-radius: 0 0 200px 200px;">
+          <img id="extra_img" src="" alt="The Craft">
+        </div>
+        <div>
+          <span id="extra_kicker" class="subtitle"></span>
+          <h2 id="extra_title"></h2>
+          <p id="extra_body" style="color:var(--text-muted);"></p>
+        </div>
+      </div>
+    </main>
+
+    <div id="values_section" class="values-bg">
+      <div class="container">
+        <div id="values_grid" class="values-grid">
+          </div>
+      </div>
     </div>
+
+    <div class="container section-pad">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <span id="roster_kicker" class="subtitle"></span>
+        <h2 id="roster_title"></h2>
+      </div>
+      <div class="team-grid" id="team_grid"></div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div id="footer_logo" style="font-family: var(--font-heading); font-size: 24px; margin-bottom: 20px;">The Haven</div>
+        <p id="ns_address" style="margin-bottom: 10px;"></p>
+        <p id="footer_copy"></p>
+      </div>
+    </footer>
   </div>
-
-  <div class="container section-pad">
-    <div style="text-align: center; margin-bottom: 40px;">
-      <span class="subtitle">The Collective</span>
-      <h2>Meet The Artisans</h2>
-    </div>
-
-    <div class="team-grid" id="team_grid">
-      <div style="grid-column:1/-1; text-align:center; padding:40px; color:#999;">Loading artisans...</div>
-    </div>
-  </div>
-
-  <footer>
-    <div class="container">
-      <div id="footer_logo" style="font-family: var(--font-heading); font-size: 24px; margin-bottom: 20px;">The Haven</div>
-      <p id="ns_address" style="margin-bottom: 20px;"></p>
-      <p>&copy; 2026 The Haven. Powered by Net Studio.</p>
-    </div>
-  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
   <script>
-    if (window.lucide) lucide.createIcons();
+    (() => {
+      const $ = (id) => document.getElementById(id);
+      const pick = (...vals) => vals.find(v => v !== undefined && v !== null && String(v).trim() !== "") || "";
 
-    /* --- UTILS --- */
-    function nsGetSlug() {
-      const q = new URLSearchParams(location.search).get("b");
-      if (q) return q.toLowerCase();
-      const h = location.hostname.toLowerCase();
-      const R = "netstudiodevelopment.com";
-      if (!h || h === "localhost" || h.startsWith("127.") || h === R || h === "www." + R) return null;
-      if (h.endsWith("." + R)) return h.slice(0, -(R.length + 1)).split(".")[0];
-      return null;
-    }
+      function nsDetectSlug() {
+        const ROOT = "netstudiodevelopment.com";
+        const host = (location.hostname || "").toLowerCase();
+        if (!host || host === ROOT || host === "www." + ROOT) return null;
+        if (host.endsWith("." + ROOT)) return host.slice(0, -(ROOT.length + 1)).split(".")[0];
+        return new URLSearchParams(location.search).get("b");
+      }
 
-    // ✅ PATCH 2: Context Helper
-    function nsSetBusinessContext(businessId) {
-      if (!businessId) return;
-      window.NS_BUSINESS_ID = businessId;
-      document.documentElement.setAttribute("data-business-id", businessId);
-      if (document.body) document.body.setAttribute("data-business-id", businessId);
-      try {
-        localStorage.setItem("ns_business_id", businessId);
-        sessionStorage.setItem("ns_business_id", businessId);
-      } catch(e) {}
-      try {
-        const u = new URL(location.href);
-        if (!u.searchParams.get("business_id")) {
-          u.searchParams.set("business_id", businessId);
-          history.replaceState({}, "", u.toString());
+      const NS = {
+        SB_URL: "https://jdvdgvolfmvlgyfklbwe.supabase.co",
+        SB_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkdmRndm9sZm12bGd5ZmtsYndlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1Mjk5MDgsImV4cCI6MjA3OTEwNTkwOH0.xiAOgWof9En3jbCpY1vrYpj3HD-O6jMHbamIHTSflek",
+        SLUG: nsDetectSlug(),
+        TEMPLATE: "haven_v1"
+      };
+
+      const sb = supabase.createClient(NS.SB_URL, NS.SB_KEY);
+
+      function nsLoadBookingEngine() {
+        return new Promise((resolve) => {
+          if (window.NetStudio && typeof window.NetStudio.open === "function") return resolve(true);
+          const s = document.createElement("script");
+          s.src = "/netstudio_booking.js";
+          s.async = true;
+          s.onload = () => resolve(true);
+          document.body.appendChild(s);
+        });
+      }
+
+      function apply(data, biz) {
+        const about = data.about || {};
+        const hero = about.hero || {};
+        const story = about.story || {};
+        const extra = about.section_extra || {};
+        const values = about.values || [];
+        const roster = about.roster || {};
+
+        const bName = biz.name || "The Haven";
+        if($("nav_logo")) $("nav_logo").textContent = bName;
+        if($("footer_logo")) $("footer_logo").textContent = bName;
+        if($("footer_copy")) $("footer_copy").textContent = `© ${new Date().getFullYear()} ${bName}. Powered by Net Studio.`;
+
+        // Hero
+        if($("hero_kicker")) $("hero_kicker").textContent = pick(hero.kicker, "Est. 2021");
+        if($("hero_headline")) $("hero_headline").innerHTML = pick(hero.headline, "A Sanctuary for <br>Self-Care.");
+        if($("hero_body")) $("hero_body").textContent = pick(hero.body, biz.bio, "");
+
+        // Story
+        if($("story_kicker")) $("story_kicker").textContent = pick(story.kicker, "The Vision");
+        if($("story_title")) $("story_title").textContent = pick(story.title, "Holistic Beauty");
+        if($("story_p1")) $("story_p1").textContent = pick(story.body_p1, "");
+        if($("story_p2")) $("story_p2").textContent = pick(story.body_p2, "");
+        if($("story_img")) $("story_img").src = pick(story.image, "https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80&w=800");
+
+        // Extra
+        if($("extra_kicker")) $("extra_kicker").textContent = pick(extra.kicker, "The Craft");
+        if($("extra_title")) $("extra_title").textContent = pick(extra.headline, "Artistry & Patience");
+        if($("extra_body")) $("extra_body").textContent = pick(extra.body, "");
+        if($("extra_img")) $("extra_img").src = pick(extra.image, "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800");
+
+        // Values
+        const vGrid = $("values_grid");
+        if(vGrid) {
+            if(values.length > 0) {
+                vGrid.innerHTML = values.map(v => `<div><h3 style="font-size: 22px; margin-bottom: 12px;">${v.title}</h3><p style="font-size: 13px; color: var(--text-muted);">${v.text}</p></div>`).join("");
+            } else {
+                $("values_section").style.display = "none";
+            }
         }
-      } catch(e) {}
-    }
 
-    // ✅ PATCH 3: Dynamic Script Loader
-    function nsLoadBookingEngine() {
-      return new Promise((resolve) => {
-        if (window.openBooking || (window.NetStudio && typeof window.NetStudio.open === "function")) return resolve(true);
-        const s = document.createElement("script");
-        s.src = "/netstudio_booking.js";
-        s.async = true;
-        s.onload = () => resolve(true);
-        s.onerror = () => resolve(false);
-        document.body.appendChild(s);
-      });
-    }
+        // Roster Headings
+        if($("roster_kicker")) $("roster_kicker").textContent = pick(roster.kicker, "The Collective");
+        if($("roster_title")) $("roster_title").textContent = pick(roster.title, "Meet The Artisans");
 
-    /* --- DATA RENDERERS --- */
-    function renderTeam(members) {
-      const grid = document.getElementById("team_grid");
-      if(!grid) return;
-      
-      if(!members || members.length === 0) {
-        grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; color:#999;">No active artisans found.</div>`;
-        return;
+        const addr = [biz.street_address, biz.city, biz.state].filter(Boolean).join(", ");
+        if ($("ns_address")) $("ns_address").textContent = addr;
+
+        $("main-content").style.opacity = "1";
       }
 
-      grid.innerHTML = members.map(m => `
-        <div class="team-card">
-          <div class="team-img-wrap">
-            <img src="${m.profile_image_url || 'https://via.placeholder.com/400'}" class="team-img" alt="${m.name}">
-          </div>
-          <h3 style="font-size: 18px;">${m.name.split(' ')[0]}</h3>
-          <span class="team-role">${m.role || "Artisan"}</span>
-          <div class="action-row">
-            <button class="btn-sm" onclick="window.nsOpenBooking({ staff_id: '${m.id}' }); return false;">Book</button>
-            <button class="btn-outline-sm" onclick="window.location.href='team.html?staff_id=${m.id}'">Profile</button>
-          </div>
-        </div>
-      `).join("");
-    }
+      async function init() {
+        if (!NS.SLUG) { if($("site-error")) $("site-error").style.display = "block"; return; }
+        const { data: biz } = await sb.from("business").select("*").eq("slug", NS.SLUG).maybeSingle();
+        if (!biz) { if($("site-error")) $("site-error").style.display = "block"; return; }
 
-    /* --- MAIN LOAD --- */
-    const SB_URL = "https://jdvdgvolfmvlgyfklbwe.supabase.co";
-    const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkdmRndm9sZm12bGd5ZmtsYndlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1Mjk5MDgsImV4cCI6MjA3OTEwNTkwOH0.xiAOgWof9En3jbCpY1vrYpj3HD-O6jMHbamIHTSflek";
-    const sb = supabase.createClient(SB_URL, SB_KEY);
-    const SLUG = nsGetSlug();
+        window.NS_BUSINESS_ID = biz.id;
+        await nsLoadBookingEngine();
 
-    async function loadHavenAbout() {
-      if (!SLUG) return;
+        const [siteRes, teamRes] = await Promise.all([
+          sb.from("business_sites").select("content_json").eq("business_id", biz.id).eq("template_key", NS.TEMPLATE).maybeSingle(),
+          sb.from("team_members").select("*").eq("business_id", biz.id).eq("is_active", true).not("auth_user_id", "is", null)
+        ]);
 
-      // 1. Business Info
-      const { data: biz } = await sb.from("business")
-        .select("id, name, street_address, city, state, bio")
-        .eq("slug", SLUG).maybeSingle();
-      
-      if (!biz) return;
+        const grid = $("team_grid");
+        if(grid && teamRes.data) {
+          grid.innerHTML = teamRes.data.map(m => `
+            <div class="team-card">
+              <div class="team-img-wrap">
+                <img src="${m.profile_image_url || 'https://via.placeholder.com/400'}" class="team-img" alt="${m.name}">
+              </div>
+              <h3 style="font-size: 18px;">${m.name.split(' ')[0]}</h3>
+              <span class="team-role">${m.role || "Artisan"}</span>
+              <div class="action-row">
+                <button class="btn-sm" onclick="window.nsOpenBooking({ staff_id: '${m.id}' }); return false;">Book</button>
+                <button class="btn-outline-sm" onclick="window.location.href='team.html?staff_id=${m.id}&b=${NS.SLUG}'">Profile</button>
+              </div>
+            </div>`).join("");
+        }
 
-      // ✅ PATCH 4: Context & Engine
-      nsSetBusinessContext(biz.id);
-      await nsLoadBookingEngine();
-
-      // Branding
-      if (biz.name) {
-        if(document.getElementById("nav_logo")) document.getElementById("nav_logo").textContent = biz.name;
-        if(document.getElementById("footer_logo")) document.getElementById("footer_logo").textContent = biz.name;
+        apply(siteRes.data?.content_json || {}, biz);
       }
-
-      // Address
-      const addrEl = document.getElementById("ns_address");
-      if (addrEl && biz.street_address) {
-        addrEl.textContent = [biz.street_address, biz.city, biz.state].filter(Boolean).join(", ");
-      }
-
-      // Bio Injection
-      if (biz.bio && document.getElementById("bio_text")) {
-        document.getElementById("bio_text").textContent = biz.bio;
-      }
-
-      // 2. Fetch Active Team
-      const { data: members } = await sb.from("team_members")
-        .select("id, name, role, profile_image_url")
-        .eq("business_id", biz.id)
-        .eq("is_active", true)
-        .not("auth_user_id", "is", null);
-
-      renderTeam(members || []);
-    }
-
-    loadHavenAbout();
+      init();
+    })();
   </script>
 </body>
 </html>
