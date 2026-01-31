@@ -276,9 +276,17 @@
     if (window.lucide) lucide.createIcons();
 
     /* --- UTILS --- */
+    // ✅ PATCH 1: Normalize Slug Logic
+    function normalizeSlug(slug) {
+      if (!slug) return null;
+      // Strip "net-studio-" prefix if present
+      return slug.toLowerCase().trim().replace(/^net-studio-/, "");
+    }
+
     function nsGetSlug() {
       const q = new URLSearchParams(location.search).get("b");
-      if (q) return q.toLowerCase();
+      if (q) return q.toLowerCase().trim();
+      
       const h = location.hostname.toLowerCase();
       const R = "netstudiodevelopment.com";
       if (!h || h === "localhost" || h.startsWith("127.") || h === R || h === "www." + R) return null;
@@ -296,6 +304,14 @@
       const b = nsGetBParam();
       if (b) u.searchParams.set("b", b);
       return u.pathname + "?" + u.searchParams.toString();
+    }
+
+    // ✅ PATCH 3: Debug Banner
+    function nsDebugBanner(msg){
+      const d = document.createElement("div");
+      d.style.cssText = "position:fixed;left:12px;right:12px;bottom:12px;z-index:99999;background:#fff;border:1px solid rgba(0,0,0,.15);padding:10px 12px;border-radius:12px;font:12px/1.35 system-ui;color:#111;box-shadow:0 12px 30px rgba(0,0,0,.12)";
+      d.textContent = msg;
+      document.body.appendChild(d);
     }
 
     function nsSetBusinessContext(businessId) {
@@ -353,6 +369,15 @@
       const s = (url || "").toString().trim();
       if (!s) return;
       el.src = s;
+    }
+
+    function pickFirst(obj, keys){
+      if (!obj) return "";
+      for (const k of keys) {
+        const v = obj[k];
+        if (v !== undefined && v !== null && String(v).trim() !== "") return v;
+      }
+      return "";
     }
 
     /* --- DATA INJECTOR --- */
@@ -420,17 +445,27 @@
     const SB_URL = "https://jdvdgvolfmvlgyfklbwe.supabase.co";
     const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkdmRndm9sZm12bGd5ZmtsYndlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1Mjk5MDgsImV4cCI6MjA3OTEwNTkwOH0.xiAOgWof9En3jbCpY1vrYpj3HD-O6jMHbamIHTSflek";
     const sb = supabase.createClient(SB_URL, SB_KEY);
-    const SLUG = nsGetSlug();
+    
+    // ✅ PATCH 2: Normalized Slug Usage
+    const SLUG = normalizeSlug(nsGetSlug());
 
     async function loadHavenAbout() {
-      if (!SLUG) return;
+      // ✅ PATCH 3: Debug banner instead of silent return
+      if (!SLUG) { 
+        nsDebugBanner("No SLUG detected. Use ?b=your-slug or a slug subdomain."); 
+        return; 
+      }
 
       // 1. Business Info
-      const { data: biz } = await sb.from("business")
+      const { data: biz, error: bizErr } = await sb.from("business")
         .select("id, name, address_html")
         .eq("slug", SLUG).maybeSingle();
       
-      if (!biz) return;
+      if (bizErr) console.error(bizErr);
+      if (!biz) { 
+        nsDebugBanner(`No business found for slug: ${SLUG}`); 
+        return; 
+      }
 
       nsSetBusinessContext(biz.id);
       await nsLoadBookingEngine();
@@ -465,8 +500,13 @@
         .maybeSingle();
 
       if (siteErr) console.error(siteErr);
+      
+      if (!site) { 
+        nsDebugBanner(`No business_sites row for template_key: ${activeKey}`); 
+        return; 
+      }
 
-      // ✅ Apply content from DB (Strict Schema)
+      // ✅ PATCH 1: Apply Canonical About if content_json exists (relaxed check)
       if (site?.content_json) {
         applyAboutCanonical(site.content_json);
       }
