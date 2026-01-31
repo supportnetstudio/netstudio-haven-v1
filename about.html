@@ -33,12 +33,13 @@
 
     /* --- RESET --- */
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    /* ✅ PATCH A: Remove overflow-x hidden */
     body {
       background: var(--bg-body);
       color: var(--text-main);
       font-family: var(--font-body);
       line-height: 1.6;
-      overflow-x: hidden;
     }
 
     /* --- TYPOGRAPHY --- */
@@ -178,7 +179,7 @@
 
   <header class="container story-hero">
     <span class="subtitle">Est. 2021</span>
-    <h1>A Sanctuary for <br>Self-Care.</h1>
+    <h1 id="about_heading">A Sanctuary for <br>Self-Care.</h1>
     <p class="lead-text" id="bio_text">
       The Haven was born from a desire to slow down. In a world that rushes, 
       we created a space where beauty is a ritual, not a race.
@@ -189,17 +190,17 @@
     
     <div class="split-section">
       <div class="img-frame">
-        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80&w=800" alt="Salon Interior">
+        <img id="about_img" src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80&w=800" alt="Salon Interior">
       </div>
       <div>
         <span class="subtitle">The Vision</span>
-        <h2>Holistic Beauty</h2>
-        <p style="color:var(--text-muted); margin-bottom: 20px;">
+        <h2 id="story_title">Holistic Beauty</h2>
+        <p id="story_p1" style="color:var(--text-muted); margin-bottom: 20px;">
           We believe that healthy hair starts with a healthy environment. That implies 
           using organic, low-toxin color lines and sustainable products that nourish 
           rather than strip.
         </p>
-        <p style="color:var(--text-muted);">
+        <p id="story_p2" style="color:var(--text-muted);">
           Our studio is designed as a calm respite—neutral tones, natural light, 
           and quiet corners. It is a place to exhale.
         </p>
@@ -286,6 +287,19 @@
       return null;
     }
 
+    // ✅ PATCH B: Helper to preserve slug in profile links
+    function nsGetBParam(){
+      return new URLSearchParams(location.search).get("b");
+    }
+
+    function buildStaffProfileUrl(staffId){
+      const u = new URL("team.html", location.href);
+      u.searchParams.set("staff_id", staffId);
+      const b = nsGetBParam();
+      if (b) u.searchParams.set("b", b);
+      return u.pathname + "?" + u.searchParams.toString();
+    }
+
     // ✅ PATCH 2: Context Helper
     function nsSetBusinessContext(businessId) {
       if (!businessId) return;
@@ -328,19 +342,30 @@
         return;
       }
 
-      grid.innerHTML = members.map(m => `
+      grid.innerHTML = members.map(m => {
+        const fullName = (m?.name || "").trim() || "Team Member";
+        const firstName = fullName.split(/\s+/)[0] || fullName;
+        
+        return `
         <div class="team-card">
           <div class="team-img-wrap">
-            <img src="${m.profile_image_url || 'https://via.placeholder.com/400'}" class="team-img" alt="${m.name}">
+            <img src="${m.profile_image_url || 'https://via.placeholder.com/400'}" class="team-img" alt="${fullName}">
           </div>
-          <h3 style="font-size: 18px;">${m.name.split(' ')[0]}</h3>
+          <h3 style="font-size: 18px;">${firstName}</h3>
           <span class="team-role">${m.role || "Artisan"}</span>
           <div class="action-row">
             <button class="btn-sm" onclick="window.nsOpenBooking({ staff_id: '${m.id}' }); return false;">Book</button>
-            <button class="btn-outline-sm" onclick="window.location.href='team.html?staff_id=${m.id}'">Profile</button>
+            <button class="btn-outline-sm" onclick="window.location.href='${buildStaffProfileUrl(m.id)}'; return false;">Profile</button>
           </div>
         </div>
-      `).join("");
+      `}).join("");
+    }
+
+    function pick(...vals){
+      for (const v of vals) {
+        if (v !== undefined && v !== null && String(v).trim() !== "") return String(v);
+      }
+      return "";
     }
 
     /* --- MAIN LOAD --- */
@@ -354,7 +379,7 @@
 
       // 1. Business Info
       const { data: biz } = await sb.from("business")
-        .select("id, name, street_address, city, state, bio")
+        .select("id, name, street_address, city, state")
         .eq("slug", SLUG).maybeSingle();
       
       if (!biz) return;
@@ -375,12 +400,56 @@
         addrEl.textContent = [biz.street_address, biz.city, biz.state].filter(Boolean).join(", ");
       }
 
-      // Bio Injection
-      if (biz.bio && document.getElementById("bio_text")) {
-        document.getElementById("bio_text").textContent = biz.bio;
+      // 2) Follow pointer (business_sites_one) -> active template
+      let activeKey = "haven_v1";
+      const { data: one, error: oneErr } = await sb
+        .from("business_sites_one")
+        .select("active_template_key")
+        .eq("business_id", biz.id)
+        .maybeSingle();
+
+      if (oneErr) console.error(oneErr);
+      if (one?.active_template_key) activeKey = one.active_template_key.trim();
+
+      // 3) Fetch active site row content
+      const { data: site, error: siteErr } = await sb
+        .from("business_sites")
+        .select("template_key, content_json")
+        .eq("business_id", biz.id)
+        .eq("template_key", activeKey)
+        .maybeSingle();
+
+      if (siteErr) console.error(siteErr);
+
+      // ✅ PATCH C: Apply about/story copy from canonical schema
+      if (site?.template_key === "haven_v1") {
+        const c = site.content_json || {};
+        const about = c.about || {};
+        const hero = about.hero || {};
+        const story = about.story || {};
+
+        if (hero.heading && document.getElementById("about_heading")) {
+           document.getElementById("about_heading").innerHTML = hero.heading;
+        }
+        if (hero.text && document.getElementById("bio_text")) {
+           document.getElementById("bio_text").textContent = hero.text;
+        }
+        if (hero.image_url && document.getElementById("about_img")) {
+           document.getElementById("about_img").src = hero.image_url;
+        }
+
+        if (story.title && document.getElementById("story_title")) {
+           document.getElementById("story_title").textContent = story.title;
+        }
+        if (story.p1 && document.getElementById("story_p1")) {
+           document.getElementById("story_p1").textContent = story.p1;
+        }
+        if (story.p2 && document.getElementById("story_p2")) {
+           document.getElementById("story_p2").textContent = story.p2;
+        }
       }
 
-      // 2. Fetch Active Team
+      // 4. Fetch Active Team
       const { data: members } = await sb.from("team_members")
         .select("id, name, role, profile_image_url")
         .eq("business_id", biz.id)
