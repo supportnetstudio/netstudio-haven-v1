@@ -208,17 +208,17 @@
 
     <div class="split-section split-reverse">
       <div class="img-frame" style="border-radius: 0 0 200px 200px;">
-        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800" alt="Hair Texture">
+        <img id="extra_img" src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800" alt="Hair Texture">
       </div>
       <div>
         <span class="subtitle">The Craft</span>
-        <h2>Artistry & Patience</h2>
-        <p style="color:var(--text-muted); margin-bottom: 20px;">
+        <h2 id="extra_title">Artistry & Patience</h2>
+        <p id="extra_p1" style="color:var(--text-muted); margin-bottom: 20px;">
           Great color takes time. Our stylists are trained in "Lived-In" techniques 
           that allow your hair to grow out seamlessly, extending the life of your color 
           and maintaining the integrity of your strands.
         </p>
-        <p style="color:var(--text-muted);">
+        <p id="extra_p2" style="color:var(--text-muted);">
           We don't double book. When you are in our chair, you have our undivided attention.
         </p>
       </div>
@@ -230,20 +230,20 @@
     <div class="container">
       <div class="values-grid">
         <div>
-          <h3 style="font-size: 22px; margin-bottom: 12px;">Organic First</h3>
-          <p style="font-size: 13px; color: var(--text-muted);">
+          <h3 id="value_1_title" style="font-size: 22px; margin-bottom: 12px;">Organic First</h3>
+          <p id="value_1_text" style="font-size: 13px; color: var(--text-muted);">
             We prioritize ammonia-free color and cruelty-free products.
           </p>
         </div>
         <div>
-          <h3 style="font-size: 22px; margin-bottom: 12px;">Inclusive Space</h3>
-          <p style="font-size: 13px; color: var(--text-muted);">
+          <h3 id="value_2_title" style="font-size: 22px; margin-bottom: 12px;">Inclusive Space</h3>
+          <p id="value_2_text" style="font-size: 13px; color: var(--text-muted);">
             All textures, all backgrounds, all people are celebrated here.
           </p>
         </div>
         <div>
-          <h3 style="font-size: 22px; margin-bottom: 12px;">Transparent Pricing</h3>
-          <p style="font-size: 13px; color: var(--text-muted);">
+          <h3 id="value_3_title" style="font-size: 22px; margin-bottom: 12px;">Transparent Pricing</h3>
+          <p id="value_3_text" style="font-size: 13px; color: var(--text-muted);">
             No surprise add-ons. Our session-based pricing is clear.
           </p>
         </div>
@@ -286,7 +286,6 @@
       return null;
     }
 
-    // ✅ PATCH B: Helper to preserve slug in profile links
     function nsGetBParam(){
       return new URLSearchParams(location.search).get("b");
     }
@@ -299,7 +298,6 @@
       return u.pathname + "?" + u.searchParams.toString();
     }
 
-    // ✅ PATCH 2: Context Helper
     function nsSetBusinessContext(businessId) {
       if (!businessId) return;
       window.NS_BUSINESS_ID = businessId;
@@ -318,7 +316,6 @@
       } catch(e) {}
     }
 
-    // ✅ PATCH 3: Dynamic Script Loader
     function nsLoadBookingEngine() {
       return new Promise((resolve) => {
         if (window.openBooking || (window.NetStudio && typeof window.NetStudio.open === "function")) return resolve(true);
@@ -329,6 +326,90 @@
         s.onerror = () => resolve(false);
         document.body.appendChild(s);
       });
+    }
+
+    /* --- HELPERS --- */
+    function setText(id, val){
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (val === undefined || val === null) return;
+      const s = String(val).trim();
+      if (!s) return;
+      el.textContent = s;
+    }
+
+    function setHTML(id, val){
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (val === undefined || val === null) return;
+      const s = String(val).trim();
+      if (!s) return;
+      el.innerHTML = s;
+    }
+
+    function setImg(id, url){
+      const el = document.getElementById(id);
+      if (!el) return;
+      const s = (url || "").toString().trim();
+      if (!s) return;
+      el.src = s;
+    }
+
+    function pickFirst(obj, keys){
+      if (!obj) return "";
+      for (const k of keys) {
+        const v = obj[k];
+        if (v !== undefined && v !== null && String(v).trim() !== "") return v;
+      }
+      return "";
+    }
+
+    /* --- CANONICAL CONTENT INJECTOR --- */
+    function applyAboutCanonical(content){
+      const about = content?.about || {};
+
+      // HERO
+      const hero = about.hero || {};
+      const heroHeading = pickFirst(hero, ["heading", "title", "h1"]);
+      const heroText    = pickFirst(hero, ["text", "subtitle", "lead", "body", "description"]);
+      const heroImg     = pickFirst(hero, ["image_url", "img", "image", "bg", "bg_url", "photo_url"]);
+
+      if (heroHeading) setHTML("about_heading", heroHeading);
+      if (heroText) setHTML("bio_text", heroText);
+      if (heroImg) setImg("about_img", heroImg);
+
+      // STORY
+      const story = about.story || {};
+      const storyTitle = pickFirst(story, ["title", "heading"]);
+      const storyP1    = pickFirst(story, ["p1", "paragraph_1", "paragraph1", "text_1", "text1"]);
+      const storyP2    = pickFirst(story, ["p2", "paragraph_2", "paragraph2", "text_2", "text2"]);
+
+      if (storyTitle) setText("story_title", storyTitle);
+      if (storyP1) setText("story_p1", storyP1);
+      if (storyP2) setText("story_p2", storyP2);
+
+      // SECTION EXTRA
+      const extra = about.section_extra || {};
+      const extraTitle = pickFirst(extra, ["title", "heading"]);
+      const extraP1    = pickFirst(extra, ["p1", "paragraph_1", "paragraph1", "text_1", "text1"]);
+      const extraP2    = pickFirst(extra, ["p2", "paragraph_2", "paragraph2", "text_2", "text2"]);
+      const extraImg   = pickFirst(extra, ["image_url", "img", "image", "bg", "bg_url", "photo_url"]);
+
+      if (extraTitle) setText("extra_title", extraTitle);
+      if (extraP1) setText("extra_p1", extraP1);
+      if (extraP2) setText("extra_p2", extraP2);
+      if (extraImg) setImg("extra_img", extraImg);
+
+      // VALUES
+      const values = about.values;
+      const arr = Array.isArray(values) ? values : (values?.items || values?.cards || []);
+      for (let i = 0; i < 3; i++){
+        const v = arr[i] || {};
+        const t = pickFirst(v, ["title", "heading"]);
+        const b = pickFirst(v, ["text", "body", "description"]);
+        if (t) setText(`value_${i+1}_title`, t);
+        if (b) setText(`value_${i+1}_text`, b);
+      }
     }
 
     /* --- DATA RENDERERS --- */
@@ -360,13 +441,6 @@
       `}).join("");
     }
 
-    function pick(...vals){
-      for (const v of vals) {
-        if (v !== undefined && v !== null && String(v).trim() !== "") return String(v);
-      }
-      return "";
-    }
-
     /* --- MAIN LOAD --- */
     const SB_URL = "https://jdvdgvolfmvlgyfklbwe.supabase.co";
     const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkdmRndm9sZm12bGd5ZmtsYndlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1Mjk5MDgsImV4cCI6MjA3OTEwNTkwOH0.xiAOgWof9En3jbCpY1vrYpj3HD-O6jMHbamIHTSflek";
@@ -383,17 +457,14 @@
       
       if (!biz) return;
 
-      // ✅ PATCH 4: Context & Engine
       nsSetBusinessContext(biz.id);
       await nsLoadBookingEngine();
 
-      // Branding
       if (biz.name) {
         if(document.getElementById("nav_logo")) document.getElementById("nav_logo").textContent = biz.name;
         if(document.getElementById("footer_logo")) document.getElementById("footer_logo").textContent = biz.name;
       }
 
-      // Address (HTML-safe)
       const addrEl = document.getElementById("ns_address");
       if (addrEl && biz.address_html) {
         addrEl.innerHTML = biz.address_html;
@@ -420,33 +491,9 @@
 
       if (siteErr) console.error(siteErr);
 
-      // ✅ PATCH C: Apply about/story copy from canonical schema
-      if (site?.template_key === "haven_v1") {
-        const c = site.content_json || {};
-        const about = c.about || {};
-        const hero = about.hero || {};
-        const story = about.story || {};
-
-        if (hero.heading && document.getElementById("about_heading")) {
-           document.getElementById("about_heading").innerHTML = hero.heading;
-        }
-        if (hero.text && document.getElementById("bio_text")) {
-           // Allow HTML for line breaks
-           document.getElementById("bio_text").innerHTML = hero.text;
-        }
-        if (hero.image_url && document.getElementById("about_img")) {
-           document.getElementById("about_img").src = hero.image_url;
-        }
-
-        if (story.title && document.getElementById("story_title")) {
-           document.getElementById("story_title").textContent = story.title;
-        }
-        if (story.p1 && document.getElementById("story_p1")) {
-           document.getElementById("story_p1").textContent = story.p1;
-        }
-        if (story.p2 && document.getElementById("story_p2")) {
-           document.getElementById("story_p2").textContent = story.p2;
-        }
+      // ✅ PATCH C (Improved): Apply Canonical About
+      if (site?.content_json?.about) {
+        applyAboutCanonical(site.content_json);
       }
 
       // 4. Fetch Active Team
