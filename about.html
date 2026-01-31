@@ -355,60 +355,35 @@
       el.src = s;
     }
 
-    function pickFirst(obj, keys){
-      if (!obj) return "";
-      for (const k of keys) {
-        const v = obj[k];
-        if (v !== undefined && v !== null && String(v).trim() !== "") return v;
-      }
-      return "";
-    }
-
-    /* --- CANONICAL CONTENT INJECTOR --- */
+    /* --- DATA INJECTOR --- */
     function applyAboutCanonical(content){
       const about = content?.about || {};
 
-      // HERO
+      // 1. Hero (Matches Builder: heading, text, image_url)
       const hero = about.hero || {};
-      const heroHeading = pickFirst(hero, ["heading", "title", "h1"]);
-      const heroText    = pickFirst(hero, ["text", "subtitle", "lead", "body", "description"]);
-      const heroImg     = pickFirst(hero, ["image_url", "img", "image", "bg", "bg_url", "photo_url"]);
+      if (hero.heading) setHTML("about_heading", hero.heading);
+      if (hero.text) setHTML("bio_text", hero.text);
+      if (hero.image_url) setImg("about_img", hero.image_url);
 
-      if (heroHeading) setHTML("about_heading", heroHeading);
-      if (heroText) setHTML("bio_text", heroText);
-      if (heroImg) setImg("about_img", heroImg);
-
-      // STORY
+      // 2. Story (Matches Builder: title, p1, p2)
       const story = about.story || {};
-      const storyTitle = pickFirst(story, ["title", "heading"]);
-      const storyP1    = pickFirst(story, ["p1", "paragraph_1", "paragraph1", "text_1", "text1"]);
-      const storyP2    = pickFirst(story, ["p2", "paragraph_2", "paragraph2", "text_2", "text2"]);
+      if (story.title) setText("story_title", story.title);
+      if (story.p1) setText("story_p1", story.p1);
+      if (story.p2) setText("story_p2", story.p2);
 
-      if (storyTitle) setText("story_title", storyTitle);
-      if (storyP1) setText("story_p1", storyP1);
-      if (storyP2) setText("story_p2", storyP2);
-
-      // SECTION EXTRA
+      // 3. Extra (Matches Builder: title, p1, p2, image_url)
       const extra = about.section_extra || {};
-      const extraTitle = pickFirst(extra, ["title", "heading"]);
-      const extraP1    = pickFirst(extra, ["p1", "paragraph_1", "paragraph1", "text_1", "text1"]);
-      const extraP2    = pickFirst(extra, ["p2", "paragraph_2", "paragraph2", "text_2", "text2"]);
-      const extraImg   = pickFirst(extra, ["image_url", "img", "image", "bg", "bg_url", "photo_url"]);
+      if (extra.title) setText("extra_title", extra.title);
+      if (extra.p1) setText("extra_p1", extra.p1);
+      if (extra.p2) setText("extra_p2", extra.p2);
+      if (extra.image_url) setImg("extra_img", extra.image_url);
 
-      if (extraTitle) setText("extra_title", extraTitle);
-      if (extraP1) setText("extra_p1", extraP1);
-      if (extraP2) setText("extra_p2", extraP2);
-      if (extraImg) setImg("extra_img", extraImg);
-
-      // VALUES
-      const values = about.values;
-      const arr = Array.isArray(values) ? values : (values?.items || values?.cards || []);
-      for (let i = 0; i < 3; i++){
-        const v = arr[i] || {};
-        const t = pickFirst(v, ["title", "heading"]);
-        const b = pickFirst(v, ["text", "body", "description"]);
-        if (t) setText(`value_${i+1}_title`, t);
-        if (b) setText(`value_${i+1}_text`, b);
+      // 4. Values (Matches Builder: Array of {title, text})
+      if (Array.isArray(about.values)) {
+        about.values.slice(0, 3).forEach((v, i) => {
+          if (v.title) setText(`value_${i+1}_title`, v.title);
+          if (v.text) setText(`value_${i+1}_text`, v.text);
+        });
       }
     }
 
@@ -491,8 +466,8 @@
 
       if (siteErr) console.error(siteErr);
 
-      // ✅ PATCH C (Improved): Apply Canonical About
-      if (site?.content_json?.about) {
+      // ✅ Apply content from DB (Strict Schema)
+      if (site?.content_json) {
         applyAboutCanonical(site.content_json);
       }
 
