@@ -34,7 +34,6 @@
     /* --- RESET --- */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
-    /* ✅ PATCH A: Remove overflow-x hidden */
     body {
       background: var(--bg-body);
       color: var(--text-main);
@@ -379,7 +378,7 @@
 
       // 1. Business Info
       const { data: biz } = await sb.from("business")
-        .select("id, name, street_address, city, state")
+        .select("id, name, address_html")
         .eq("slug", SLUG).maybeSingle();
       
       if (!biz) return;
@@ -394,10 +393,10 @@
         if(document.getElementById("footer_logo")) document.getElementById("footer_logo").textContent = biz.name;
       }
 
-      // Address
+      // Address (HTML-safe)
       const addrEl = document.getElementById("ns_address");
-      if (addrEl && biz.street_address) {
-        addrEl.textContent = [biz.street_address, biz.city, biz.state].filter(Boolean).join(", ");
+      if (addrEl && biz.address_html) {
+        addrEl.innerHTML = biz.address_html;
       }
 
       // 2) Follow pointer (business_sites_one) -> active template
@@ -432,7 +431,8 @@
            document.getElementById("about_heading").innerHTML = hero.heading;
         }
         if (hero.text && document.getElementById("bio_text")) {
-           document.getElementById("bio_text").textContent = hero.text;
+           // Allow HTML for line breaks
+           document.getElementById("bio_text").innerHTML = hero.text;
         }
         if (hero.image_url && document.getElementById("about_img")) {
            document.getElementById("about_img").src = hero.image_url;
