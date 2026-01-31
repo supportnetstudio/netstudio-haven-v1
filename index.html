@@ -178,8 +178,7 @@
         <h2 id="services_title"></h2>
       </div>
       <div class="svc-scroll" id="service_preview">
-        <div style="width:100%; text-align:center; padding:30px; color:#999;">Loading...</div>
-      </div>
+        </div>
     </section>
 
     <section class="container section-pad">
@@ -230,12 +229,21 @@
         return prefix.trim();
       }
 
+      // ✅ PATCH 1: Global Config Exposure
       const NS = {
         SB_URL: "https://jdvdgvolfmvlgyfklbwe.supabase.co",
         SB_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkdmRndm9sZm12bGd5ZmtsYndlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1Mjk5MDgsImV4cCI6MjA3OTEwNTkwOH0.xiAOgWof9En3jbCpY1vrYpj3HD-O6jMHbamIHTSflek",
         SLUG: nsDetectSlugProdOnly(),
-        TEMPLATE: "haven_v1"
+        FALLBACK_TEMPLATE: "haven_v1"
       };
+
+      // ✅ PATCH 2: True 404 Isolation
+      function show404(){
+        const e = document.getElementById("site-error");
+        const m = document.getElementById("main-content");
+        if (e) e.style.display = "block";
+        if (m) m.style.display = "none";
+      }
 
       const sb = supabase.createClient(NS.SB_URL, NS.SB_KEY);
 
@@ -267,10 +275,15 @@
         if ($("hero_headline")) $("hero_headline").innerHTML = pick(hero.headline, "Beauty, Rooted<br>In Nature.");
         if ($("hero_subheadline")) $("hero_subheadline").textContent = pick(hero.subheadline, biz.bio, "A sanctuary for hair and soul.");
         
-        // ✅ PATCH 3: Support Master Schema bg_image
-        if ($("hero_img")) $("hero_img").src = pick(hero.image_url, hero.bg_image, biz.hero_bg_url, "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&q=80&w=1200");
+        // ✅ PATCH 4: Normalized Hero Image Keys
+        if ($("hero_img")) $("hero_img").src = pick(
+          hero.bg, 
+          hero.image_url, 
+          hero.bg_image, 
+          biz.hero_bg_url, 
+          "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&q=80&w=1200"
+        );
         
-        // ✅ PATCH 1: Master Schema Ratings
         if ($("rating_value")) $("rating_value").textContent = pick(hero.rating?.value, hero.rating_value, "4.9");
         if ($("rating_label")) $("rating_label").textContent = pick(hero.rating?.label, hero.rating_label, "Average Rating");
 
@@ -286,31 +299,47 @@
         if ($("testimonial_quote")) $("testimonial_quote").textContent = pick(testimonial.quote, "I have never felt more heard by a stylist.");
         if ($("testimonial_author")) $("testimonial_author").textContent = pick(testimonial.author, "Sarah Jenkins");
         
-        // ✅ PATCH 2: Master Schema Testimonial Date
         if ($("testimonial_attribution")) $("testimonial_attribution").textContent = pick(testimonial.date, testimonial.attribution, "Client since 2021");
 
-        const addr = [biz.street_address, biz.city, biz.state].filter(Boolean).join(", ");
-        if ($("ns_address")) $("ns_address").textContent = addr;
+        // ✅ PATCH 5: Normalized Address Source
+        if ($("ns_address")) {
+          $("ns_address").innerHTML = pick(
+            biz.address_html, 
+            [biz.street_address, biz.city, biz.state].filter(Boolean).join(", ")
+          );
+        }
 
         if (window.lucide) lucide.createIcons();
       }
 
       async function init() {
-        if (!NS.SLUG) { if($("site-error")) $("site-error").style.display = "block"; return; }
+        if (!NS.SLUG) { show404(); return; }
 
         const { data: biz } = await sb.from("business").select("*").eq("slug", NS.SLUG).maybeSingle();
-        if (!biz) { if($("site-error")) $("site-error").style.display = "block"; return; }
+        if (!biz) { show404(); return; }
 
+        // ✅ PATCH 1: Identity Exposure
         window.NS_BUSINESS_ID = biz.id;
-        await nsLoadBookingEngine();
+        document.documentElement.setAttribute("data-ns-business-id", String(biz.id));
+        
+        // IDENTITY LOCK: Fetch Pointer
+        const { data: pointer } = await sb.from("business_sites_one").select("active_template_key").eq("business_id", biz.id).maybeSingle();
+        const activeKey = pointer?.active_template_key || NS.FALLBACK_TEMPLATE;
+
+        nsLoadBookingEngine(); // Non-blocking
 
         const [siteRes, menuRes] = await Promise.all([
-          sb.from("business_sites").select("content_json").eq("business_id", biz.id).eq("template_key", NS.TEMPLATE).maybeSingle(),
+          sb.from("business_sites").select("content_json").eq("business_id", biz.id).eq("template_key", activeKey).maybeSingle(),
           sb.from("menu_items").select("*").eq("business_id", biz.id).eq("is_active", true).limit(3)
         ]);
 
+        // ✅ PATCH 6: Console Warning for Missing Row
+        if (!siteRes.data) {
+          console.warn(`[NetStudio] Missing business_sites row: template=${activeKey}, business_id=${biz.id}`);
+        }
+
         const scroll = $("service_preview");
-        if (scroll && menuRes.data) {
+        if (scroll && menuRes.data && menuRes.data.length > 0) {
           scroll.innerHTML = menuRes.data.map(s => `
             <div class="svc-card">
               <h3 style="font-size: 22px; margin-bottom: 10px;">${s.name}</h3>
@@ -318,11 +347,14 @@
               <span style="font-size: 12px; font-weight: 700; border-bottom: 1px solid black; padding-bottom: 4px;">$${(s.price_cents/100).toFixed(0)}+</span>
             </div>
           `).join("");
+        } else if (scroll) {
+           scroll.innerHTML = ""; // Clear loader if no data
         }
 
         apply(siteRes.data?.content_json || {}, biz);
       }
-      init();
+      
+      document.addEventListener("DOMContentLoaded", init);
     })();
   </script>
 </body>
