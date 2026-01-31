@@ -276,7 +276,6 @@
     if (window.lucide) lucide.createIcons();
 
     /* --- UTILS --- */
-    // ✅ PATCH 1: Normalize Slug Logic
     function normalizeSlug(slug) {
       if (!slug) return null;
       // Strip "net-studio-" prefix if present
@@ -306,7 +305,6 @@
       return u.pathname + "?" + u.searchParams.toString();
     }
 
-    // ✅ PATCH 3: Debug Banner
     function nsDebugBanner(msg){
       const d = document.createElement("div");
       d.style.cssText = "position:fixed;left:12px;right:12px;bottom:12px;z-index:99999;background:#fff;border:1px solid rgba(0,0,0,.15);padding:10px 12px;border-radius:12px;font:12px/1.35 system-ui;color:#111;box-shadow:0 12px 30px rgba(0,0,0,.12)";
@@ -384,26 +382,26 @@
     function applyAboutCanonical(content){
       const about = content?.about || {};
 
-      // 1. Hero (Matches Builder: heading, text, image_url)
+      // 1. Hero
       const hero = about.hero || {};
       if (hero.heading) setHTML("about_heading", hero.heading);
       if (hero.text) setHTML("bio_text", hero.text);
       if (hero.image_url) setImg("about_img", hero.image_url);
 
-      // 2. Story (Matches Builder: title, p1, p2)
+      // 2. Story
       const story = about.story || {};
       if (story.title) setText("story_title", story.title);
       if (story.p1) setText("story_p1", story.p1);
       if (story.p2) setText("story_p2", story.p2);
 
-      // 3. Extra (Matches Builder: title, p1, p2, image_url)
+      // 3. Extra
       const extra = about.section_extra || {};
       if (extra.title) setText("extra_title", extra.title);
       if (extra.p1) setText("extra_p1", extra.p1);
       if (extra.p2) setText("extra_p2", extra.p2);
       if (extra.image_url) setImg("extra_img", extra.image_url);
 
-      // 4. Values (Matches Builder: Array of {title, text})
+      // 4. Values
       if (Array.isArray(about.values)) {
         about.values.slice(0, 3).forEach((v, i) => {
           if (v.title) setText(`value_${i+1}_title`, v.title);
@@ -445,20 +443,17 @@
     const SB_URL = "https://jdvdgvolfmvlgyfklbwe.supabase.co";
     const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkdmRndm9sZm12bGd5ZmtsYndlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1Mjk5MDgsImV4cCI6MjA3OTEwNTkwOH0.xiAOgWof9En3jbCpY1vrYpj3HD-O6jMHbamIHTSflek";
     const sb = supabase.createClient(SB_URL, SB_KEY);
-    
-    // ✅ PATCH 2: Normalized Slug Usage
     const SLUG = normalizeSlug(nsGetSlug());
 
     async function loadHavenAbout() {
-      // ✅ PATCH 3: Debug banner instead of silent return
       if (!SLUG) { 
         nsDebugBanner("No SLUG detected. Use ?b=your-slug or a slug subdomain."); 
         return; 
       }
 
-      // 1. Business Info
+      // ✅ PATCH: Select existing columns (street_address, city, state) instead of address_html
       const { data: biz, error: bizErr } = await sb.from("business")
-        .select("id, name, address_html")
+        .select("id, name, street_address, city, state")
         .eq("slug", SLUG).maybeSingle();
       
       if (bizErr) console.error(bizErr);
@@ -475,9 +470,13 @@
         if(document.getElementById("footer_logo")) document.getElementById("footer_logo").textContent = biz.name;
       }
 
+      // ✅ PATCH: Manually construct address HTML
       const addrEl = document.getElementById("ns_address");
-      if (addrEl && biz.address_html) {
-        addrEl.innerHTML = biz.address_html;
+      if (addrEl) {
+        const line1 = (biz.street_address || "").trim();
+        const line2 = [biz.city, biz.state].map(v => (v || "").trim()).filter(Boolean).join(", ");
+        const html = [line1, line2].filter(Boolean).join("<br>");
+        if (html) addrEl.innerHTML = html;
       }
 
       // 2) Follow pointer (business_sites_one) -> active template
@@ -506,7 +505,7 @@
         return; 
       }
 
-      // ✅ PATCH 1: Apply Canonical About if content_json exists (relaxed check)
+      // ✅ Apply content from DB
       if (site?.content_json) {
         applyAboutCanonical(site.content_json);
       }
